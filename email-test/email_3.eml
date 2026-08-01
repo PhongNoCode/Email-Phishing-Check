@@ -1,0 +1,28 @@
+MIME-Version: 1.0
+Date: Sat, 01 Aug 2026 09:10:00 +0700
+Message-ID: <abcde@yourcompany.com>
+Subject: Weekly Report
+From: "Alice" <alice@yourcompany.com>
+To: "Bob" <bob@yourcompany.com>
+Return-Path: <alice@yourcompany.com>
+Reply-To: <alice@yourcompany.com>
+Received-SPF: Pass
+dkim_signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yourcompany.com; s=pass;
+Content-Type: multipart/mixed; boundary="boundary-safe-789"
+
+--boundary-safe-789
+Content-Type: text/plain; charset="utf-8"
+
+Hi Bob,
+Here is the report for this week. You can also view it on our secure portal:
+https://portal.yourcompany.com/report-august
+
+Best,
+Alice
+--boundary-safe-789
+Content-Type: application/pdf; name="report.pdf"
+Content-Disposition: attachment; filename="report.pdf"
+Content-Transfer-Encoding: base64
+
+JVBERi0xLjQKJcOkw7zDtsOfCjIgMCBvYmoKPDwvTGVuZ3RoIDM+PgpzdHJlYW0KCgplbmRz
+--boundary-safe-789--

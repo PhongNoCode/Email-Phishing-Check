@@ -1,0 +1,26 @@
+MIME-Version: 1.0
+Date: Sat, 01 Aug 2026 09:15:00 +0700
+Message-ID: <evil-spammer@hacker-server.com>
+Subject: EXTREME ALERT: Your account is compromised
+From: "System Admin" <admin@yourcompany.com>
+To: employee@yourcompany.com
+Return-Path: <bounce@scam-domain.com>
+Reply-To: <hacker@scam-domain.com>
+Received-SPF: Fail (domain of scam-domain.com does not designate permitted sender)
+dkim_signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=scam-domain.com; s=fail;
+Content-Type: multipart/mixed; boundary="boundary-extreme-666"
+
+--boundary-extreme-666
+Content-Type: text/plain; charset="utf-8"
+
+Your account will be deleted in 24 hours. 
+Download the security patch immediately from our server: http://192.168.1.100/patch
+Or use the backup link: http://bit.ly/secure-patch-v2
+
+--boundary-extreme-666
+Content-Type: text/plain; name="SecurityPatch.exe"
+Content-Disposition: attachment; filename="SecurityPatch.exe"
+Content-Transfer-Encoding: base64
+
+WDVPIVAlQEFQWzRcUFpYNTQoUF4pN0NDKTd9JEVJQ0FSLVNUQU5EQVJELUFOVElWSVJVUy1URVNULUZJTEUhJEgrSCo=
+--boundary-extreme-666--

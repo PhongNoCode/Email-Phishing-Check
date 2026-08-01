@@ -1,0 +1,24 @@
+MIME-Version: 1.0
+Date: Sat, 01 Aug 2026 09:05:00 +0700
+Message-ID: <9999@sendgrid.net>
+Subject: System Update
+From: "IT Support" <it@yourcompany.com>
+To: employee@yourcompany.com
+Return-Path: <it@yourcompany.com>
+Reply-To: <it@yourcompany.com>
+Received-SPF: SoftFail
+Content-Type: multipart/mixed; boundary="boundary-suspicious-456"
+
+--boundary-suspicious-456
+Content-Type: text/plain; charset="utf-8"
+
+Please update your system using this temporary link: http://tinyurl.com/update-sys
+Or run the attached VBS script.
+
+--boundary-suspicious-456
+Content-Type: application/x-vbs; name="update.vbs"
+Content-Disposition: attachment; filename="update.vbs"
+Content-Transfer-Encoding: base64
+
+TXNnQm94ICJIZWxsbyI=
+--boundary-suspicious-456--
