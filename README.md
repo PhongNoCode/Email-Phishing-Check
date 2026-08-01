@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # 🛡️ Email Phishing Analyzer
 
 **Email Phishing Analyzer** is a robust, modular Python command-line tool designed for static analysis of `.eml` files. It evaluates email headers, routing information, URLs, and attachments to detect phishing attempts, spoofing, and malicious payloads.
@@ -69,8 +68,3 @@ python main.py -fo path/to/folder/
 
 <img width="2230" height="1178" alt="image" src="https://github.com/user-attachments/assets/229ec61b-0f1a-4186-8531-76bdce6e2f00" />
 
-
-=======
-# Email-Phishing-Check
-This project aims to use static and dynamic methods to check email file is phishing or not
->>>>>>> 21a5206 (Initial commit)

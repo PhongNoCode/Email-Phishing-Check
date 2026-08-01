@@ -5,11 +5,12 @@ import time
 import concurrent.futures
 import API
 import parsers
+from rich.console import Console
 
 hash_cache = {}
 api_lock = threading.Lock()
 api_call_times = []
-
+console = Console()
 class static_analyze():
     """Class to perform static analysis on an email file."""
 
@@ -36,13 +37,13 @@ class static_analyze():
         """
         if 'email_domain_from' in self.header and 'email_domain_return_path' in self.header:
             if self.header['email_domain_from'] != self.header['email_domain_return_path']:
-                print("[from_vs_return_path] Result: Mismatch detected | Added score: +15")
+                console.print("[dim]\\[from_vs_return_path][/dim] Result: Mismatch detected | Added score: [red]+15[/red]")
                 return 15
             else:
-                print("[from_vs_return_path] Result: Domains match | Added score: +0")
+                console.print("[dim]\\[from_vs_return_path][/dim] Result: Domains match | Added score: [green]+0[/green]")
                 return 0
         else:
-            print("[from_vs_return_path] Result: Header keys missing | Added score: +0")
+            console.print("[dim]\\[from_vs_return_path][/dim] Result: Header keys missing | Added score: [green]+0[/green]")
             return 0
 
     def from_vs_reply_to(self):
@@ -52,10 +53,10 @@ class static_analyze():
             int: The risk score (+10 for mismatch, +0 for match).
         """
         if self.header['email_domain_from'] != self.header['email_domain_reply_to']:
-            print("[from_vs_reply_to] Result: Mismatch detected | Added score: +10")
+            console.print("[dim]\\[from_vs_reply_to][/dim] Result: Mismatch detected | Added score: [red]+10[/red]")
             return 10
         else:
-            print("[from_vs_reply_to] Result: Domains match | Added score: +0")
+            console.print("[dim]\\[from_vs_reply_to][/dim] Result: Domains match | Added score: [green]+0[/green]")
             return 0
 
     def from_vs_message_id(self):
@@ -65,10 +66,10 @@ class static_analyze():
             int: The risk score (+5 for mismatch, +0 for match).
         """
         if self.route['email_domain_message_id'] != self.header['email_domain_from']:
-            print("[from_vs_message_id] Result: Mismatch detected | Added score: +5")
+            console.print("[dim]\\[from_vs_message_id][/dim] Result: Mismatch detected | Added score: [red]+5[/red]")
             return 5
         else:
-            print("[from_vs_message_id] Result: Domains match | Added score: +0")
+            console.print("[dim]\\[from_vs_message_id][/dim] Result: Domains match | Added score: [green]+0[/green]")
             return 0
 
     def dkim_signature(self):
@@ -79,13 +80,13 @@ class static_analyze():
         """
         if 'dkim_signature' in self.header:
             if self.header['dkim_signature'] == True:
-                print("[dkim_signature] Result: Valid signature | Added score: +15")
+                console.print("[dim]\\[dkim_signature][/dim] Result: Valid signature | Added score: [red]+15[/red]")
                 return 15
             else:
-                print("[dkim_signature] Result: Invalid signature | Added score: +0")
+                console.print("[dim]\\[dkim_signature][/dim] Result: Invalid signature | Added score: [green]+0[/green]")
                 return 0
         else:
-            print("[dkim_signature] Result: Header key missing | Added score: +0")
+            console.print("[dim]\\[dkim_signature][/dim] Result: Header key missing | Added score: [green]+0[/green]")
             return 0
 
     def spf(self):
@@ -96,13 +97,13 @@ class static_analyze():
         """
         if 'receive_spf' in self.header:
             if self.header['receive_spf'] == True:
-                print("[spf] Result: Valid SPF | Added score: +10")
+                console.print("[dim]\\[spf][/dim] Result: Valid SPF | Added score: [red]+10[/red]")
                 return 10
             else:
-                print("[spf] Result: Invalid SPF | Added score: +0")
+                console.print("[dim]\\[spf][/dim] Result: Invalid SPF | Added score: [green]+0[/green]")
                 return 0
         else:
-            print("[spf] Result: Header key missing | Added score: +0")
+            console.print("[dim]\\[spf][/dim] Result: Header key missing | Added score: [green]+0[/green]")
             return 0
 
     def check_hash(self):
@@ -116,7 +117,7 @@ class static_analyze():
         # Review each hash of a file if an email has more than one hash
         for file_name, file_hash in self.hash_of_file.items():
             if file_hash in hash_cache:
-                print(f"[check_hash] Result: Get in hash cache | Add score: +{hash_cache[file_hash]}")
+                console.print(f"[dim]\\[check_hash][/dim] Result: Get in hash cache | Add score: [yellow]+{hash_cache[file_hash]}[/yellow]")
                 return hash_cache[file_hash]
 
         # Auto lock when start and release when finish
@@ -133,16 +134,16 @@ class static_analyze():
                 result = API.check_hash(res)
             
                 if result['malicious'] >= 4:
-                    print("[check_hash] Result: High malicious score | Added score: +100")
+                    console.print("[dim]\\[check_hash][/dim] Result: High malicious score | Added score: [bold red]+100[/bold red]")
                     hash_cache[self.hash_of_file] = 100
                     return 100
                     
                 else:
-                    print("[check_hash] Result: Low/No malicious score | Added score: +0")
+                    console.print("[dim]\\[check_hash][/dim] Result: Low/No malicious score | Added score: [green]+0[/green]")
                     hash_cache[self.hash_of_file] = 0
                     return 0  
             except Exception as e:
-                print(f"[check_hash] Result: Hash not found in VT database for {file_name} | Added score: +0")
+                console.print(f"[dim]\\[check_hash][/dim] Result: Hash not found in VT database for {file_name} | Added score: [green]+0[/green]")
                 hash_cache[file_hash] = 0
                 return 0
             
@@ -157,13 +158,13 @@ class static_analyze():
             
         highest_score = sorted(self.ext.values())[0]
         if highest_score == 0:
-            print("[check_extension] Result: Score 0 detected | Added score: +25")
+            console.print("[dim]\\[check_extension][/dim] Result: Score detected | Added score: [red]+25[/red]")
             return 25
         elif highest_score == 1:
-            print("[check_extension] Result: Score 1 detected | Added score: +15")
+            console.print("[dim]\\[check_extension][/dim] Result: Score detected | Added score: [orange]+15[/orange]")
             return 15
         else: 
-            print("[check_extension] Result: Score > 1 detected | Added score: +0")
+            console.print("[dim]\\[check_extension][/dim] Result: Score detected | Added score: [green]+0[/green]")
             return 0
 
     def check_url(self):
@@ -177,13 +178,13 @@ class static_analyze():
             
         highest_score = sorted(self.url.values())[0]
         if highest_score == 0:
-            print("[check_url] Result: Score 0 detected | Added score: +10")
+            console.print("[dim]\\[check_url][/dim] Result: Score detected | Added score: [red]+10[/red]")
             return 10
         elif highest_score == 1:
-            print("[check_url] Result: Score 1 detected | Added score: +5")
+            console.print("[dim]\\[check_url][/dim] Result: Score detected | Added score: [orange]+5[/orange]")
             return 5
         else:
-            print("[check_url] Result: Score > 1 detected | Added score: +0")
+            console.print("[dim]\\[check_url][/dim] Result: Score detected | Added score: [green]+0[/green]")
             return 0
 
     def runall(self):  

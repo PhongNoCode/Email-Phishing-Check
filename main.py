@@ -5,6 +5,9 @@ import sys
 import argparse
 import API
 from analyzer import static_analyze
+from rich.console import Console
+
+console = Console()
 
 def user_input():   
     """Process the Command Line Interface (CLI) inputs to retrieve the list of files to analyze.
@@ -57,7 +60,10 @@ def check_score(start_file, score):
         dict: The result from the AI API (if the score falls within the abnormal range [20..70]).
     """
     if score < 19:
-        print('This file is safe')
+        console.print("\n[bold green]===============================================[/bold green]")
+        console.print(f"[bold green] ESTIMATED RISK SCORE : [bold black on green] {score} [/bold black on green][/bold green]")
+        console.print("[bold green]===============================================[/bold green]\n")
+        console.print('[bold green]This file is safe[/bold green]')
     elif score >= 19 and score <= 70:   
         total_result = {
             'header': start_file.header,
@@ -66,11 +72,17 @@ def check_score(start_file, score):
             'url' : start_file.url,
             'subject' : start_file.subject,
             'hash_of_file' : start_file.hash_of_file
-        }        
+        }
+        console.print("\n[bold orange1]===============================================[/bold orange1]")
+        console.print(f"[bold orange1] ESTIMATED RISK SCORE : [bold black on orange1] {score} [/bold black on orange1][/bold orange1]")
+        console.print("[bold orange1]===============================================[/bold orange1]\n")
         result_from_AI = API.check_high_score(total_result)
         return result_from_AI
-    else:
-        print('This file is malicious')
+    else:        
+        console.print("\n[bold red]===============================================[/bold red]")
+        console.print(f"[bold red] ESTIMATED RISK SCORE : [bold black on red] {score} [/bold black on red][/bold red]")
+        console.print("[bold red]===============================================[/bold red]\n")
+        console.print('[bold red]This file is malicious[/bold red]')
 
 def main():
     """Main function to start the lifecycle of fetching and statically analyzing each file."""
@@ -79,7 +91,6 @@ def main():
         print(f'---------- Analyzing the file {file} ----------')      
         start = static_analyze(file)
         start.runall()
-        print(start.total_score)
         score = start.total_score
         check_score(start, score)
         print('\n'*5)
