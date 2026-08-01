@@ -1,0 +1,14 @@
+# Môi trường ảo Python
+.venv/
+venv/
+env/
+
+# Cache của Python
+__pycache__/
+*.pyc
+
+# Các file email test không cần đưa lên
+*.eml
+
+# File chứa biến môi trường/API Key
+.env
