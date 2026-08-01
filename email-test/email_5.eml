@@ -1,0 +1,25 @@
+MIME-Version: 1.0
+Date: Sat, 01 Aug 2026 10:00:00 +0700
+Message-ID: <promo-987654321@sendgrid.net>
+Subject: Your Summer Discount Code Inside!
+From: "The Good Store" <newsletter@thegoodstore.com>
+To: customer@example.com
+Return-Path: <bounces-8888@sendgrid.net>
+Reply-To: <support@thegoodstore.com>
+Received-SPF: Pass (domain of sendgrid.net designates 192.0.2.1 as permitted sender)
+dkim_signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=thegoodstore.com; s=marketing;
+Content-Type: multipart/alternative; boundary="boundary-marketing-101"
+
+--boundary-marketing-101
+Content-Type: text/plain; charset="utf-8"
+
+Hi there,
+
+Thanks for being a loyal customer! Here is your exclusive summer discount.
+Check out our new arrivals here: http://bit.ly/summer-sale-2026
+
+If you have any issues, please reply to this email and our support team will help.
+
+Cheers,
+The Good Store Team
+--boundary-marketing-101--
