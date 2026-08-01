@@ -66,5 +66,6 @@ python main.py -fo path/to/folder/
 
 ## 🔎 Sample output
 
-<img width="2230" height="1178" alt="image" src="https://github.com/user-attachments/assets/229ec61b-0f1a-4186-8531-76bdce6e2f00" />
+<img width="2410" height="1120" alt="image" src="https://github.com/user-attachments/assets/f255b820-a95c-4dcd-8eaf-0e7f1994d695" />
+
 
