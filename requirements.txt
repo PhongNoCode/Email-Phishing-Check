@@ -1,0 +1,4 @@
+tldextract
+vt-py
+python-dotenv
+google-generativeai
