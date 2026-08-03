@@ -80,10 +80,10 @@ class static_analyze():
         """
         if 'dkim_signature' in self.header:
             if self.header['dkim_signature'] == True:
-                console.print("[dim]\\[dkim_signature][/dim] Result: Valid signature | Added score: [red]+15[/red]")
+                console.print("[dim]\\[dkim_signature][/dim] Result: Invalid signature | Added score: [red]+15[/red]")
                 return 15
             else:
-                console.print("[dim]\\[dkim_signature][/dim] Result: Invalid signature | Added score: [green]+0[/green]")
+                console.print("[dim]\\[dkim_signature][/dim] Result: Valid signature | Added score: [green]+0[/green]")
                 return 0
         else:
             console.print("[dim]\\[dkim_signature][/dim] Result: Header key missing | Added score: [green]+0[/green]")
@@ -97,10 +97,10 @@ class static_analyze():
         """
         if 'receive_spf' in self.header:
             if self.header['receive_spf'] == True:
-                console.print("[dim]\\[spf][/dim] Result: Valid SPF | Added score: [red]+10[/red]")
+                console.print("[dim]\\[spf][/dim] Result: Invalid SPF | Added score: [red]+10[/red]")
                 return 10
             else:
-                console.print("[dim]\\[spf][/dim] Result: Invalid SPF | Added score: [green]+0[/green]")
+                console.print("[dim]\\[spf][/dim] Result: Valid SPF | Added score: [green]+0[/green]")
                 return 0
         else:
             console.print("[dim]\\[spf][/dim] Result: Header key missing | Added score: [green]+0[/green]")
@@ -135,7 +135,7 @@ class static_analyze():
             
                 if result['malicious'] >= 4:
                     console.print("[dim]\\[check_hash][/dim] Result: High malicious score | Added score: [bold red]+100[/bold red]")
-                    hash_cache[self.hash_of_file] = 100
+                    hash_cache[file_hash] = 100
                     return 100
                     
                 else:
