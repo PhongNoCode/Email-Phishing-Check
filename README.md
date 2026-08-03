@@ -25,6 +25,7 @@ Email-Phishing-Check/
 ├── main.py           # CLI entry point and execution flow
 ├── API.py            # External API integrations (VirusTotal and Gemini)
 ├── .gitignore        # Ignored files and folders
+├── .env.example      # Example API inputs
 ├── email-test        # Sample emails
 ├── requirements.txt  # Libraries for this project
 └── README.md         # Project documentation
