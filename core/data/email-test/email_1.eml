@@ -1,0 +1,26 @@
+MIME-Version: 1.0
+Date: Sat, 01 Aug 2026 09:00:00 +0700
+Message-ID: <12345@evil-hacker.com>
+Subject: Urgent: Invoice Payment Required
+From: "CEO" <ceo@yourcompany.com>
+To: employee@yourcompany.com
+Return-Path: <hacker@evil-hacker.com>
+Reply-To: <hacker@evil-hacker.com>
+Received-SPF: Fail (domain of evil-hacker.com does not designate permitted sender)
+dkim_signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=evil-hacker.com; s=fail;
+Content-Type: multipart/mixed; boundary="boundary-malicious-123"
+
+--boundary-malicious-123
+Content-Type: text/plain; charset="utf-8"
+
+Please process this invoice immediately! 
+To view the document online, go to: http://192.168.1.99/login 
+Or use our alternative link: http://bit.ly/fake-invoice
+
+--boundary-malicious-123
+Content-Type: application/x-msdos-program; name="invoice.exe"
+Content-Disposition: attachment; filename="invoice.exe"
+Content-Transfer-Encoding: base64
+
+SGVsbG8gV29ybGQhIFRoaXMgaXMgYSBkdW1teSBmaWxlLg==
+--boundary-malicious-123--

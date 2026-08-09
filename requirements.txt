@@ -1,5 +1,16 @@
-tldextract
-vt-py
+# --- CLI & Formatting ---
+rich       
+
+# --- API Clients & Integrations ---
+vt-py    
+google-genai 
 python-dotenv
-google-generativeai
-rich
+
+# --- Email Parsing & Network Utilities ---
+tldextract
+
+# --- Malware & Document Analysis (Macro) ---
+oletools
+
+# --- keyword Searching ---
+pyahocorasick

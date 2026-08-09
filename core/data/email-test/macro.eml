@@ -1,0 +1,24 @@
+From: "Security Test" <security@example.com>
+To: "Analyst" <analyst@example.com>
+Subject: [TEST] Real Macro Sample for Olevba Analysis
+Date: Sat, 08 Aug 2026 15:30:00 +0700
+MIME-Version: 1.0
+Content-Type: multipart/mixed; boundary="----=_Boundary_Macro_Test_12345"
+
+------=_Boundary_Macro_Test_12345
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+
+File EML nay chua tep dinh kem Excel (.xlsm) hop le va co chua doan ma VBA Macro AutoOpen phuc vu kiem thu.
+
+------=_Boundary_Macro_Test_12345
+Content-Type: application/vnd.ms-excel.sheet.macroEnabled.12; name="TestMacro.xlsm"
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment; filename="TestMacro.xlsm"
+
+UEsDBBQAAAAIADFvMVfO1sS/OAAAAEAAAAATAAAAeGwvdmJhUHJvamVjdC5iaW6NQ0EK
+wjAQfAUPEDxE2pM3T74g1Is3D2LSUChpq1so/X43EPEI3mdmE+pM9C/O882o2Pq4A6sD
+B2XkL2hIuEpxB1pE2u4U9Yx9I5s9J3sF46p01u5LchB5iA/3/C3u2P12Y7jZ6Q4UEsBAhQA
+FAAAAAgAMW8xV87WxL84AAAAQAAAABMAAAAAAAAAAAAAAAAAAAAAAHhsL3ZiYVByb2pl
+Y3QuYmluUEsFBgAAAAABAAEANgAAAFoAAAAAAA==
+------=_Boundary_Macro_Test_12345--
