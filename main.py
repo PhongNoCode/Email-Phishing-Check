@@ -9,6 +9,7 @@ from core.utils import api
 from core.email_analyzer import bec_analyzer
 from core.email_analyzer.analyzer import StaticAnalyzer
 from core.email_analyzer.parse_text_to_json import parse_text
+from core.email_analyzer.risk_policy import THRESHOLDS
 
 console = Console()
 
@@ -51,25 +52,20 @@ def get_target_files():
 def evaluate_risk_score(analyzer_instance, risk_score):
     """Evaluate and classify the email based on the total risk score.
 
-    Score interpretation:
-    - 0 to 19: Safe (Normal).
-    - 20 to 70: Abnormal (Requires further API AI check).
-    - Greater than 70: Malicious (Malware).
-
     Args:
         analyzer_instance (StaticAnalyzer): The analysis object containing all extracted properties.
         risk_score (int): The total score obtained from the evaluation process.
 
     Returns:
-        dict: The result from the AI API (if the score falls within the abnormal range [20..70]).
+        dict: The result from the AI API.
     """
-    if risk_score < 16:
+    if risk_score < THRESHOLDS['safe']:
         console.print("\n[bold green]===============================================[/bold green]")
         console.print(f"[bold green] ESTIMATED RISK SCORE : [bold black on green] {risk_score} [/bold black on green][/bold green]")
         console.print("[bold green]===============================================[/bold green]\n")
         console.print('[bold green]This file is safe[/bold green]')
         
-    elif 17 <= risk_score <= 65:   
+    elif risk_score <= THRESHOLDS['suspicious']:   
         email_features = {
             'header': analyzer_instance.header,
             'route' : analyzer_instance.route,
@@ -78,7 +74,8 @@ def evaluate_risk_score(analyzer_instance, risk_score):
             'subject' : analyzer_instance.subject,
             'hash_of_file' : analyzer_instance.hash_of_file,
             'urgent_headers' : analyzer_instance.urgent_headers,
-            'macro_analysis' : analyzer_instance.macro_analysis
+            'macro_analysis' : analyzer_instance.macro_analysis,
+            # 'homoglyph': analyzer_instance.
         }
         console.print("\n[bold orange1]===============================================[/bold orange1]")
         console.print(f"[bold orange1] ESTIMATED RISK SCORE : [bold black on orange1] {risk_score} [/bold black on orange1][/bold orange1]")
