@@ -10,6 +10,8 @@ import email
 from oletools.olevba import VBA_Parser, detect_autoexec, detect_suspicious, detect_patterns
 import zipfile
 from oletools import rtfobj 
+from core.email_analyzer.risk_policy import IDENTITY_SCORES
+import homoglyphs as hg
 
 def extract_domain(line):
     """Extract the domain name from a string containing an email address.
@@ -139,10 +141,13 @@ def analyze_link_urls(email_file_path):
     for url in urls:
         if re.match(pattern_ip_numbers, url):
             url_risk_scores[url] = 0
+            continue
             
         for shortener in ['bit.ly', 'tinyurl.com', 'cutt.ly']:
             if shortener in url:
-                url_risk_scores[url] = 1                    
+                url_risk_scores[url] = 1    
+                continue         
+        url_risk_scores[url] = 2      
                 
     return url_risk_scores
 
@@ -314,3 +319,44 @@ def analyze_email_macros(email_file_path):
         except Exception as e:
             print(f"Error processing attachment {part.get_filename()}: {e}")                     
     return macros
+
+def analyze_homoglyph(header, urls):
+    homoglyphs = hg.Homoglyphs(languages={'en'}, strategy=hg.STRATEGY_LOAD)
+
+    homo_check = {}
+    if 'email_domain_from' in header:
+        clean_domain_from = header['email_domain_from'].strip()
+        converted_domain_from = homoglyphs.to_ascii(clean_domain_from)
+        if clean_domain_from not in converted_domain_from:
+            homo_check['homoglyph_from'] = 1
+        else:
+            homo_check['homoglyph_from'] = 0
+
+    if 'email_domain_reply_to' in header:
+        clean_domain_reply_to = header['email_domain_reply_to'].strip()
+        converted_domain_reply_to = homoglyphs.to_ascii(clean_domain_reply_to)
+        if clean_domain_reply_to not in converted_domain_reply_to:
+            homo_check['homoglyph_reply_to'] = 1
+        else:
+            homo_check['homoglyph_reply_to'] = 0
+
+    if 'email_domain_return_path' in header:
+        clean_domain_return_path = header['email_domain_return_path'].strip()
+        converted_domain_return_path = homoglyphs.to_ascii(clean_domain_return_path)
+        if clean_domain_return_path not in converted_domain_return_path:
+            homo_check['homoglyph_return_path'] = 1
+        else:
+            homo_check['homoglyph_return_path'] = 0
+    is_check_url = False
+    if urls:
+        for url in urls:
+            clean_domain_url = url.strip()
+            converted_domain_url = homoglyphs.to_ascii(clean_domain_url)
+            if clean_domain_url not in converted_domain_url:
+                homo_check['homoglyph_url'] = 1
+                is_check_url = True
+                break
+    if not is_check_url:
+        homo_check['homoglyph_url'] = 0
+    return homo_check
+    
