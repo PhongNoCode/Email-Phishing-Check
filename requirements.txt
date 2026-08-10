@@ -12,5 +12,8 @@ tldextract
 # --- Malware & Document Analysis (Macro) ---
 oletools
 
-# --- keyword Searching ---
+# --- Keyword Searching ---
 pyahocorasick
+
+# --- Homoglyphs ---
+homoglyphs
