@@ -1,5 +1,5 @@
 THRESHOLDS = {
-    'safe': 17,
+    'safe': 30,
     'suspicious': 65
 }
 

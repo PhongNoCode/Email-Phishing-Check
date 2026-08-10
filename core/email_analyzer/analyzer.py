@@ -148,7 +148,7 @@ class StaticAnalyzer:
                 api_result = api.check_hash(hash_entry)
             
                 if api_result['malicious'] >= 4:
-                    console.print(f"[dim]\\[check_attachment_hashes][/dim] Result: High malicious score | Added score: [bold red]+ATTACHMENT_SCORES['high_vt_warnings'][/bold red]")
+                    console.print(f"[dim]\\[check_attachment_hashes][/dim] Result: High malicious score | Added score: [bold red]+{ATTACHMENT_SCORES['high_vt_warnings']}[/bold red]")
                     hash_cache[file_hash] = 100
                     return ATTACHMENT_SCORES['high_vt_warnings']
                     
@@ -291,30 +291,30 @@ class StaticAnalyzer:
 
     def check_homoglyph(self):
         total_score_homo = 0
-        if self.check_homoglyph['homoglyph_from'] == 1:
+        if self.homoglyph['homoglyph_from'] == 1:
             total_score_homo += IDENTITY_SCORES['homoglyph_from']
             console.print(f"[dim]\\[check_homoglyph][/dim] Result: Homoglyph of from suspicious | Added score: [red]+{IDENTITY_SCORES['homoglyph_from']}[/red]")
         else:
-            console.print(f"[dim]\\[check_homoglyph][/dim] Result: Homoglyph of from clean | Added score: [green]+{IDENTITY_SCORES['homoglyph_from']}[/green]")
+            console.print(f"[dim]\\[check_homoglyph][/dim] Result: Homoglyph of from clean | Added score: [green]+0[/green]")
 
         
-        if self.check_homoglyph['homoglyph_reply_to'] == 1:
+        if self.homoglyph['homoglyph_reply_to'] == 1:
             total_score_homo += IDENTITY_SCORES['homoglyph_reply_to']
             console.print(f"[dim]\\[check_homoglyph][/dim] Result: Homoglyph of reply to suspicious | Added score: [orange1]+{IDENTITY_SCORES['homoglyph_reply_to']}[/orange1]")
         else:
-            console.print(f"[dim]\\[check_homoglyph][/dim] Result: Homoglyph of reply to clean | Added score: [green]+{IDENTITY_SCORES['homoglyph_from']}[/green]")
+            console.print(f"[dim]\\[check_homoglyph][/dim] Result: Homoglyph of reply to clean | Added score: [green]+0[/green]")
 
-        if self.check_homoglyph['homoglyph_return_path'] == 1:
+        if self.homoglyph['homoglyph_return_path'] == 1:
             total_score_homo += IDENTITY_SCORES['homoglyph_return_path']
             console.print(f"[dim]\\[check_homoglyph][/dim] Result: Homoglyph of return path suspicious | Added score: [orange1]+{IDENTITY_SCORES['homoglyph_return_path']}[/orange1]")
         else:
-            console.print(f"[dim]\\[check_homoglyph][/dim] Result: Homoglyph of return path clean | Added score: [green]+{IDENTITY_SCORES['homoglyph_from']}[/green]")
+            console.print(f"[dim]\\[check_homoglyph][/dim] Result: Homoglyph of return path clean | Added score: [green]+0[/green]")
 
-        if self.check_homoglyph['homoglyph_url'] == 1:
+        if self.homoglyph['homoglyph_url'] == 1:
             total_score_homo += IDENTITY_SCORES['homoglyph_url']
             console.print(f"[dim]\\[check_homoglyph][/dim] Result: Homoglyph of url suspicious | Added score: [red]+{IDENTITY_SCORES['homoglyph_url']}[/red]")
         else:
-            console.print(f"[dim]\\[check_homoglyph][/dim] Result: Homoglyph of url clean | Added score: [green]+{IDENTITY_SCORES['homoglyph_from']}[/green]")
+            console.print(f"[dim]\\[check_homoglyph][/dim] Result: Homoglyph of url clean | Added score: [green]+0[/green]")
 
     def run_all(self):  
         """Execute all checks concurrently using a ThreadPoolExecutor.

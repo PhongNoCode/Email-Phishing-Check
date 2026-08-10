@@ -21,7 +21,7 @@ def parse_text():
     body_content = ''
     current_extracted_fields: dict[str, set] = {}
     
-    with open('./core/outputs/Raw_BEC.txt', 'r') as input_file:
+    with open('./core/outputs/Raw_BEC.txt', 'r', encoding='utf-8') as input_file:
         for line in input_file.readlines():
             field_key = "".join(re.findall(r'(.*[a-z]):', line)).strip()
             field_value = "".join(re.findall(r'\:(.*)', line)).strip()

@@ -65,7 +65,7 @@ def evaluate_risk_score(analyzer_instance, risk_score):
         console.print("[bold green]===============================================[/bold green]\n")
         console.print('[bold green]This file is safe[/bold green]')
         
-    elif risk_score <= THRESHOLDS['suspicious']:   
+    elif risk_score < THRESHOLDS['suspicious']:   
         email_features = {
             'header': analyzer_instance.header,
             'route' : analyzer_instance.route,
@@ -75,7 +75,7 @@ def evaluate_risk_score(analyzer_instance, risk_score):
             'hash_of_file' : analyzer_instance.hash_of_file,
             'urgent_headers' : analyzer_instance.urgent_headers,
             'macro_analysis' : analyzer_instance.macro_analysis,
-            # 'homoglyph': analyzer_instance.
+            'homoglyph': analyzer_instance.homoglyph
         }
         console.print("\n[bold orange1]===============================================[/bold orange1]")
         console.print(f"[bold orange1] ESTIMATED RISK SCORE : [bold black on orange1] {risk_score} [/bold black on orange1][/bold orange1]")
