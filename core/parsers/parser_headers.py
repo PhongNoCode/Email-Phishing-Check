@@ -1,5 +1,8 @@
 import re
-from .utils import extract_domain
+from .parser_utils import extract_domain
+import ahocorasick
+from core.email_analyzer.constants import PHISHING_EMAIL_KEYWORDS
+
 
 def analyze_header(email_file_path):
     """Analyze the email Header to extract From, Return-Path, Reply-To, SPF, and DKIM information.
@@ -91,3 +94,30 @@ def analyze_subject(email_file_path):
             subject_data['subject'] = line[8:].strip()
             
     return subject_data
+
+def analyze_urgent_headers(email_file_path):
+    """Analyze the email content for urgent headers using the Aho-Corasick algorithm.
+
+    Args:
+        email_file_path (str): The file path to the .eml file.
+
+    Returns:
+            dict: A dictionary containing the email urgent headers.
+    """
+    
+    automaton = ahocorasick.Automaton()
+    urgent_headers = {}
+    list_of_urgent_headers = []
+    with open(email_file_path, 'r', encoding='utf-8') as file:
+        haystack = "".join(file.readlines()).lower()
+        for idx, key in enumerate(PHISHING_EMAIL_KEYWORDS):
+            automaton.add_word(key, (idx, key))
+        automaton.make_automaton()
+        for end_index, (insert_order, original_value) in automaton.iter(haystack):
+            start_index = end_index - len(original_value) + 1
+            list_of_urgent_headers.append(original_value)
+            assert haystack[start_index:start_index + len(original_value)] == original_value
+    urgent_headers['urgent_headers'] = list_of_urgent_headers
+
+    return urgent_headers
+
