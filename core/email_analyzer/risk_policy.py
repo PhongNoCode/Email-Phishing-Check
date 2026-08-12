@@ -8,7 +8,7 @@ AUTHENTICATION_SCORES = {
     'from_vs_reply_to': 5,
     'from_vs_message_id': 5,
     'fail_dkim': 10,
-    'not_pass_spf': 10,
+    'not_pass_spf': 10
 }
 
 
@@ -18,7 +18,7 @@ HEADER_SCORES = {
 
 URL_SCORES = {
     'raw_ip': 10,
-    'shortened': 5,
+    'shortened': 5
 }
 
 ATTACHMENT_SCORES = {
@@ -48,5 +48,9 @@ IDENTITY_SCORES = {
     'homoglyph_from': 20,
     'homoglyph_reply_to': 15,
     'homoglyph_return_path': 15,
-    'homoglyph_url': 20
+    'homoglyph_url': 20,
+    'typo_url': 20,
+    'typo_from': 20,
+    'typo_reply_to': 15,
+    'typo_return_path': 15
 }
