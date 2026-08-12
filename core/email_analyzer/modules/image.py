@@ -2,8 +2,7 @@ import pymupdf
 import email
 import zipfile
 import io
-import zxingcpp
-from PIL import Image
+
 
 #   https://www.kaggle.com/datasets/beatoa/spamassassin-public-corpus/data
 def analyze_pdf():
@@ -30,15 +29,15 @@ def analyze_pdf():
                     pix.save(f"page_direct-{i+1}.png")
                     print(page.get_text())
             if part.get_filename() != None and '.png' in part.get_filename():
+                pass
+                
+                # image = Image.open(io.BytesIO(file_content))
 
                 
-                image = Image.open(io.BytesIO(file_content))
+                # results = zxingcpp.read_barcodes(image)
 
                 
-                results = zxingcpp.read_barcodes(image)
-
-                
-                return [result.text for result in results]
+                # return [result.text for result in results]
 
 def analyze_qr():
     pass

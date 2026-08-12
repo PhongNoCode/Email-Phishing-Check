@@ -1,15 +1,15 @@
 """Module for extracting and analyzing Business Email Compromise (BEC) indicators."""
 
-from core.email_analyzer import parsers
+from core.parsers import analyze_header, analyze_subject, analyze_content
 import os
 
 sender_receiver_map: dict[str, list] = {}
 is_file_cleared = False
 
 def analyze_bec(email_file_path):
-    header_data = parsers.analyze_header(email_file_path)
-    subject_data = parsers.analyze_subject(email_file_path)
-    content_data = parsers.analyze_content(email_file_path)  
+    header_data = analyze_header(email_file_path)
+    subject_data = analyze_subject(email_file_path)
+    content_data = analyze_content(email_file_path)  
     
     combined_email_data = dict(header_data)
     combined_email_data.update(subject_data)

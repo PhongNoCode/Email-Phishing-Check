@@ -17,3 +17,6 @@ pyahocorasick
 
 # --- Homoglyphs ---
 homoglyphs
+
+# --- PDF Parsing ---
+pymupdf

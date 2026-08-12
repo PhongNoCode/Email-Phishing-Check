@@ -27,7 +27,7 @@ class StaticAnalyzer:
         self.urgent_headers = analyze_urgent_headers(email_file)
         self.macro_analysis = analyze_email_macros(email_file)
         self.homoglyph = analyze_homoglyph(self.header, self.url)
-        self.topo = analyze_topo(self.header, self.url)
+        self.typo = analyze_typo(self.header, self.url)
         self.total_score = 0
 
     
@@ -67,8 +67,8 @@ class StaticAnalyzer:
     def check_homoglyph(self):
         return identity.check_homoglyph(self.homoglyph)
 
-    def check_topo(self):
-        return identity.check_topo(self.check_topo)
+    def check_typo(self):
+        return identity.check_typo(self.typo)
 
     def run_all(self):  
         """Execute all checks concurrently using a ThreadPoolExecutor."""
@@ -85,7 +85,7 @@ class StaticAnalyzer:
                 executor.submit(self.check_urgent_headers),
                 executor.submit(self.check_macros),
                 executor.submit(self.check_homoglyph),
-                executor.submit(self.check_topo)
+                executor.submit(self.check_typo)
             ]
             for future in concurrent.futures.as_completed(futures):
                 result = future.result()

@@ -1,0 +1,25 @@
+From: Microsoft Account Team <account-security@micr0soft.com>
+
+Reply-To: support-case@example.org
+
+Subject: Security Review Completed – Additional Verification Required
+
+Hello,
+
+As part of our routine security monitoring, we detected an unusual authentication pattern associated with your Microsoft account from a device that has not been seen previously.
+
+To help protect your account, some services may be temporarily limited until ownership is confirmed.
+
+Please complete the verification process within 24 hours using the secure review portal below:
+
+https://login.microsoft.example.com/security-review
+
+If no action is taken before the review expires, certain account functions (including cloud synchronization and mailbox access) may remain restricted until identity verification is completed.
+
+If you recently signed in from a new device or while travelling, this notification may simply be part of our automated protection process.
+
+Thank you for helping us keep your account secure.
+
+Microsoft Account Protection Center
+
+Reference ID: MSA-2026-08-117241

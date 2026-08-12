@@ -30,31 +30,30 @@ def check_homoglyph(homoglyph):
         console.print(f"[dim]\\[check_homoglyph][/dim] Result: Homoglyph of url clean | Added score: [green]+0[/green]")
     return total_score_homo
 
-def check_topo(topo):
-    total_score_topo = 0
-    
-    if topo['topo_from'] == 1:
-        total_score_topo += IDENTITY_SCORES['topo_from']
-        console.print(f"[dim]\\[check_topo][/dim] Result: Topo of from suspicious | Added score: [red]+{IDENTITY_SCORES['topo_from']}[/red]")
+def check_typo(typo):
+    total_score_typo = 0
+    if typo['email_domain_from'] == 1:
+        total_score_typo += IDENTITY_SCORES['typo_from']
+        console.print(f"[dim]\\[check_typo][/dim] Result: Typo of from suspicious | Added score: [red]+{IDENTITY_SCORES['typo_from']}[/red]")
     else:
-        console.print(f"[dim]\\[check_topo][/dim] Result: Topo of from clean | Added score: [green]+0[/green]")
+        console.print(f"[dim]\\[check_typo][/dim] Result: Typo of from clean | Added score: [green]+0[/green]")
 
-    if topo['topo_reply_to'] == 1:
-        total_score_topo += IDENTITY_SCORES['topo_reply_to']
-        console.print(f"[dim]\\[check_topo][/dim] Result: Topo of reply to suspicious | Added score: [orange1]+{IDENTITY_SCORES['topo_reply_to']}[/orange1]")
+    if typo['email_domain_reply_to'] == 1:
+        total_score_typo += IDENTITY_SCORES['typo_reply_to']
+        console.print(f"[dim]\\[check_typo][/dim] Result: Typo of reply to suspicious | Added score: [orange1]+{IDENTITY_SCORES['typo_reply_to']}[/orange1]")
     else:
-        console.print(f"[dim]\\[check_topo][/dim] Result: Topo of reply to clean | Added score: [green]+0[/green]")
+        console.print(f"[dim]\\[check_typo][/dim] Result: Typo of reply to clean | Added score: [green]+0[/green]")
 
-    if topo['topo_return_path'] == 1:
-        total_score_topo += IDENTITY_SCORES['topo_return_path']
-        console.print(f"[dim]\\[check_topo][/dim] Result: Topo of return path suspicious | Added score: [orange1]+{IDENTITY_SCORES['topo_return_path']}[/orange1]")
+    if typo['email_domain_return_path'] == 1:
+        total_score_typo += IDENTITY_SCORES['typo_return_path']
+        console.print(f"[dim]\\[check_typo][/dim] Result: Typo of return path suspicious | Added score: [orange1]+{IDENTITY_SCORES['typo_return_path']}[/orange1]")
     else:
-        console.print(f"[dim]\\[check_topo][/dim] Result: Topo of return path clean | Added score: [green]+0[/green]")
+        console.print(f"[dim]\\[check_typo][/dim] Result: Typo of return path clean | Added score: [green]+0[/green]")
 
-    if topo['topo_url'] == 1:
-        total_score_topo += IDENTITY_SCORES['topo_url']
-        console.print(f"[dim]\\[check_topo][/dim] Result: Topo of url suspicious | Added score: [red]+{IDENTITY_SCORES['topo_url']}[/red]")
+    if typo['email_domain_url'] == 1:
+        total_score_typo += IDENTITY_SCORES['typo_url']
+        console.print(f"[dim]\\[check_typo][/dim] Result: Typo of url suspicious | Added score: [red]+{IDENTITY_SCORES['typo_url']}[/red]")
     else:
-        console.print(f"[dim]\\[check_topo][/dim] Result: Topo of url clean | Added score: [green]+0[/green]")
+        console.print(f"[dim]\\[check_typo][/dim] Result: Typo of url clean | Added score: [green]+0[/green]")
         
-    return total_score_topo
+    return total_score_typo

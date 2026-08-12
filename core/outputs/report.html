@@ -23,7 +23,7 @@
   <div class="header-high">
     <h2>🚨 Global BEC Campaign Analysis</h2>
     <p><strong>Overall Campaign Risk:</strong> HIGH</p>
-    <p><strong>Campaign Correlation:</strong> The analysis identifies a targeted Business Email Compromise (BEC) attack against a specific employee (b.nguyen@techglobal.com.vn). The attacker is leveraging social engineering tactics, including executive impersonation and artificial urgency, to facilitate unauthorized wire transfers. While other threads appear legitimate, the primary thread exhibits classic hallmarks of a coordinated financial fraud attempt.</p>
+    <p><strong>Campaign Correlation:</strong> The analysis identifies a targeted Business Email Compromise (BEC) attack against a specific employee (b.nguyen@techglobal.com.vn). The attacker is leveraging executive impersonation to bypass standard financial controls. While other threads (HR and legitimate billing) appear benign, the primary thread exhibits classic social engineering patterns designed to create a sense of urgency and secrecy to facilitate fraudulent wire transfers.</p>
   </div>
 
   <h3>🔍 Detailed Thread Analysis</h3>
@@ -32,13 +32,13 @@
     <p><strong>Risk Level:</strong> <span class="risk-high"> HIGH </span></p>
     <div class="participants-box">
       <p>📥 <strong>To (Delivered-To):</strong> b.nguyen@techglobal.com.vn</p>
-      <p>👤 <strong>From (Sender):</strong> "Tran Van A" <ceo.techglobal.vn@gmail.com></p>
+      <p>👤 <strong>From (Sender):</strong> "Tran Van A" &lt;ceo.techglobal.vn@gmail.com&gt;</p>
     </div>
     <p><strong>Detected Signals:</strong></p>
     <ul>
       <li><strong>VIP Impersonation:</strong> The sender uses the CEO's name but originates from a public Gmail domain, not the corporate domain.</li>
-      <li><strong>Financial Urgency:</strong> Multiple requests for immediate wire transfers ($14,500) with demands for secrecy and bypassing standard procedures.</li>
-      <li><strong>Social Engineering:</strong> The attacker claims to be in a meeting to prevent verification via phone calls and uses "confidentiality" to isolate the victim.</li>
+      <li><strong>Financial Urgency:</strong> Demands for a $14,500 wire transfer with a strict deadline (11:00 AM).</li>
+      <li><strong>Social Engineering:</strong> Explicit instructions to maintain secrecy ("Do not discuss this with anyone") and claims of being in a meeting to prevent verification via phone.</li>
     </ul>
   </div>
 
@@ -46,11 +46,11 @@
     <p><strong>Risk Level:</strong> <span class="risk-low"> LOW </span></p>
     <div class="participants-box">
       <p>📥 <strong>To (Delivered-To):</strong> b.nguyen@techglobal.com.vn</p>
-      <p>👤 <strong>From (Sender):</strong> "CloudVN Billing" <billing@cloudvn.example.com></p>
+      <p>👤 <strong>From (Sender):</strong> "CloudVN Billing" &lt;billing@cloudvn.example.com&gt;</p>
     </div>
     <p><strong>Detected Signals:</strong></p>
     <ul>
-      <li><strong>Standard Business Communication:</strong> Appears to be a routine invoice notification. No signs of impersonation or high-pressure tactics.</li>
+      <li><strong>Standard Business Communication:</strong> Appears to be a routine invoice notification from a known service provider. No indicators of urgency or suspicious domain spoofing detected.</li>
     </ul>
   </div>
 
@@ -58,21 +58,21 @@
     <p><strong>Risk Level:</strong> <span class="risk-low"> LOW </span></p>
     <div class="participants-box">
       <p>📥 <strong>To (Delivered-To):</strong> all@techglobal.com.vn</p>
-      <p>👤 <strong>From (Sender):</strong> "Human Resources" <hr@techglobal.com.vn></p>
+      <p>👤 <strong>From (Sender):</strong> "Human Resources" &lt;hr@techglobal.com.vn&gt;</p>
     </div>
     <p><strong>Detected Signals:</strong></p>
     <ul>
-      <li><strong>Internal Communication:</strong> Legitimate internal HR announcement regarding company policy and events.</li>
+      <li><strong>Internal Communication:</strong> Legitimate internal HR announcement regarding company policy. Domain matches the corporate infrastructure.</li>
     </ul>
   </div>
 
   <h3>🛡️ Global Recommendations</h3>
   <div class="recommendations">
     <ul>
-      <li>Immediately block the sender address "ceo.techglobal.vn@gmail.com" and flag the domain "gmail.com" for strict scrutiny in executive-level communications.</li>
-      <li>Implement mandatory out-of-band verification (e.g., phone call to a known number) for all wire transfer requests, regardless of the sender's perceived authority.</li>
-      <li>Conduct security awareness training focusing on "CEO Fraud" and the dangers of public freemail domains mimicking internal leadership.</li>
-      <li>Review and enforce strict financial approval workflows that require multi-person authorization for any fund transfers.</li>
+      <li><strong>Immediate Action:</strong> Block the sender address "ceo.techglobal.vn@gmail.com" at the email gateway and flag all emails from this address as malicious.</li>
+      <li><strong>Out-of-Band Verification:</strong> Implement a mandatory policy requiring verbal or secondary channel verification for any financial requests, regardless of the sender's perceived seniority.</li>
+      <li><strong>Security Awareness:</strong> Conduct targeted training for finance and administrative staff on identifying "CEO Fraud" and the dangers of freemail spoofing.</li>
+      <li><strong>Incident Response:</strong> Review logs to determine if any other employees received similar communications from the identified Gmail address.</li>
     </ul>
   </div>
 

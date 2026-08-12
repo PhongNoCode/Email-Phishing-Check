@@ -75,7 +75,8 @@ def evaluate_risk_score(analyzer_instance, risk_score):
             'hash_of_file' : analyzer_instance.hash_of_file,
             'urgent_headers' : analyzer_instance.urgent_headers,
             'macro_analysis' : analyzer_instance.macro_analysis,
-            'homoglyph': analyzer_instance.homoglyph
+            'homoglyph': analyzer_instance.homoglyph,
+            'typo': analyzer_instance.typo
         }
         console.print("\n[bold orange1]===============================================[/bold orange1]")
         console.print(f"[bold orange1] ESTIMATED RISK SCORE : [bold black on orange1] {risk_score} [/bold black on orange1][/bold orange1]")

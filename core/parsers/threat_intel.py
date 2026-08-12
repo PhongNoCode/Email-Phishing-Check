@@ -50,7 +50,7 @@ def analyze_homoglyph(header, urls):
     return homo_check
 
 
-def analyze_topo(header, urls):
+def analyze_typo(header, urls):
     LEET_MAP = str.maketrans({'0': 'o', '1': 'l', '3': 'e', '4': 'a', '5': 's', '7': 't', '@': 'a'})
     
     list_domain = set()
@@ -60,52 +60,54 @@ def analyze_topo(header, urls):
             line = line.strip().split('.')[0]
             list_domain.add(line)
 
-    topo_check = {}
+    typo_check = {}
     if 'email_domain_from' in header:
         domain = header['email_domain_from']
         domain = tldextract.extract(domain).domain.lower()
         raw_domain = domain.translate(LEET_MAP).lower()
         if raw_domain in list_domain:
             if raw_domain != domain:
-                topo_check['topo_from'] = 1
+                typo_check['email_domain_from'] = 1
         else:
-            topo_check['topo_from'] = 0
+            typo_check['email_domain_from'] = 0
     else:
-        topo_check['topo_from'] = 0
+        typo_check['email_domain_from'] = 0
 
     if 'email_domain_reply_to' in header:
         domain = header['email_domain_reply_to']
         domain = tldextract.extract(domain).domain.lower()
         raw_domain = domain.translate(LEET_MAP).lower()
         if raw_domain in list_domain:
-            topo_check['topo_reply_to'] = 1
+            typo_check['email_domain_reply_to'] = 1
         else:
-            topo_check['topo_reply_to'] = 0
+            typo_check['email_domain_reply_to'] = 0
     else:
-        topo_check['topo_reply_to'] = 0
+        typo_check['email_domain_reply_to'] = 0
 
     if 'email_domain_return_path' in header:
         domain = header['email_domain_return_path']
         domain = tldextract.extract(domain).domain.lower()
         raw_domain = domain.translate(LEET_MAP).lower()
         if raw_domain in list_domain:
-            topo_check['topo_return_path'] = 1
+            typo_check['email_domain_return_path'] = 1
         else:
-            topo_check['topo_return_path'] = 0
+            typo_check['email_domain_return_path'] = 0
     else:
-        topo_check['topo_return_path'] = 0
-        
+        typo_check['email_domain_return_path'] = 0
+
     is_check_url = False
     if urls:
         for domain in urls:
             domain = tldextract.extract(domain).domain.lower()
             raw_domain = domain.translate(LEET_MAP).lower()
             if raw_domain in list_domain:
-                topo_check['topo_url'] = 1
-                is_check_url = True
-                break
+                if 'email_domain_url' in header:
+                    typo_check['email_domain_url'] = 1
+                    is_check_url = True
+                    break
     if not is_check_url:
-        topo_check['topo_url'] = 0
-    return topo_check
+        typo_check['email_domain_url'] = 0
+
+    return typo_check
 
             
