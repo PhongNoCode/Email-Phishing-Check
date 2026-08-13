@@ -7,6 +7,7 @@ from core.email_analyzer.modules import authentication
 from core.email_analyzer.modules import attachment
 from core.email_analyzer.modules import identity
 from core.email_analyzer.modules import url
+from core.email_analyzer.modules import body
 from core.email_analyzer.modules import header as header_module
 from core.email_analyzer.modules import image 
 from core.parsers import *
@@ -26,6 +27,8 @@ class StaticAnalyzer:
         self.hash_of_file = analyze_attachment(email_file)
         self.urgent_headers = analyze_urgent_headers(email_file)
         self.macro_analysis = analyze_email_macros(email_file)
+        self.body_content = analyze_body_content(email_file)
+        self.urgent_body_content = analyze_urgent_body_content(self.body_content)
         self.homoglyph = analyze_homoglyph(self.header, self.url)
         self.typo = analyze_typo(self.header, self.url)
         self.total_score = 0
@@ -70,6 +73,9 @@ class StaticAnalyzer:
     def check_typo(self):
         return identity.check_typo(self.typo)
 
+    def check_body_content(self):
+        return body.check_urgent_body(self.body_content)
+
     def run_all(self):  
         """Execute all checks concurrently using a ThreadPoolExecutor."""
         with concurrent.futures.ThreadPoolExecutor(max_workers=12) as executor:
@@ -85,9 +91,13 @@ class StaticAnalyzer:
                 executor.submit(self.check_urgent_headers),
                 executor.submit(self.check_macros),
                 executor.submit(self.check_homoglyph),
-                executor.submit(self.check_typo)
+                executor.submit(self.check_typo),
+                executor.submit(self.check_body_content)
             ]
             for future in concurrent.futures.as_completed(futures):
                 result = future.result()
                 if result is not None:
                     self.total_score += result
+
+
+
