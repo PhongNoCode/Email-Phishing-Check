@@ -35,15 +35,24 @@ def analyze_homoglyph(header, urls):
     else:
         homo_check['homoglyph_return_path'] = 0
     is_check_url = False
+
+    list_domain = set()
+                
+    with open('./core/data/dataset/top-10000-domains.txt', 'r') as file:
+        for line in file:
+            line = line.strip().split('.')[0]
+            list_domain.add(line)
+
     if urls:
         for url in urls:
             ext = tldextract.extract(url)
             clean_domain_url = ext.fqdn
             converted_domain_url = homoglyphs.to_ascii(clean_domain_url)
-            if clean_domain_url not in converted_domain_url:
-                homo_check['homoglyph_url'] = 1
-                is_check_url = True
-                break
+            for real_domain in list_domain:
+                if (real_domain in converted_domain_url) and (clean_domain_url != real_domain):
+                    homo_check['homoglyph_url'] = 1
+                    is_check_url = True
+                    break
     if not is_check_url:
         homo_check['homoglyph_url'] = 0
 
@@ -78,7 +87,8 @@ def analyze_typo(header, urls):
         domain = tldextract.extract(domain).domain.lower()
         raw_domain = domain.translate(LEET_MAP).lower()
         if raw_domain in list_domain:
-            typo_check['email_domain_reply_to'] = 1
+            if raw_domain != domain:
+                typo_check['email_domain_reply_to'] = 1
         else:
             typo_check['email_domain_reply_to'] = 0
     else:
@@ -89,7 +99,8 @@ def analyze_typo(header, urls):
         domain = tldextract.extract(domain).domain.lower()
         raw_domain = domain.translate(LEET_MAP).lower()
         if raw_domain in list_domain:
-            typo_check['email_domain_return_path'] = 1
+            if raw_domain != domain:
+                typo_check['email_domain_return_path'] = 1
         else:
             typo_check['email_domain_return_path'] = 0
     else:
@@ -102,9 +113,10 @@ def analyze_typo(header, urls):
             raw_domain = domain.translate(LEET_MAP).lower()
             if raw_domain in list_domain:
                 if 'email_domain_url' in header:
-                    typo_check['email_domain_url'] = 1
-                    is_check_url = True
-                    break
+                    if raw_domain != domain:
+                        typo_check['email_domain_url'] = 1
+                        is_check_url = True
+                        break
     if not is_check_url:
         typo_check['email_domain_url'] = 0
 
