@@ -20,3 +20,6 @@ homoglyphs
 
 # --- PDF Parsing ---
 pymupdf
+
+# --- HTML Parsing ---
+beautifulsoup4
