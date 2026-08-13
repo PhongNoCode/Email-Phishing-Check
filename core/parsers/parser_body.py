@@ -1,8 +1,11 @@
 import re
 import email
+from bs4 import BeautifulSoup
+import ahocorasick
+from core.email_analyzer.constants import PHISHING_EMAIL_KEYWORDS
 
-def analyze_content(email_file_path):
-    """Analyze the email routing and Message-ID.
+def analyze_body_content(email_file_path):
+    """Analyze the body contetn
     
     Args:
         email_file_path (str): The file path to the .eml file.
@@ -12,17 +15,47 @@ def analyze_content(email_file_path):
     """
     with open(email_file_path, 'rb') as email_file:
         email_message = email.message_from_binary_file(email_file)
-        
+    content_text = ''
+    content_html = ''
     content_data = {}
     for part in email_message.walk():
         if part.get_content_type() == 'text/plain':
             raw_payload = part.get_payload(decode=True)
             charset = part.get_content_charset() or 'utf-8'
-            content_data['content'] = raw_payload.decode(charset, errors='replace')
-            break
-            
+            content_text += raw_payload.decode(charset, errors='replace') + " "
+        if part.get_content_type() == 'text/html':
+            raw_payload = part.get_payload(decode=True)
+            charset = part.get_content_charset() or 'utf-8'
+            soup = BeautifulSoup(raw_payload.decode(charset, errors='replace'), 'html.parser')
+            for tag in soup(['script', 'style']):
+                tag.decompose()
+            res = soup.get_text(separator=" ")
+            content_html += res.strip() + " "
+    content_text = ' '.join(content_text.split())
+    content_html = ' '.join(content_html.split())
+    if len(content_text) != 0:
+        content_data['content'] = content_text[:3000] if len(content_text) >= 3000 else content_text
+    else:
+        content_data['content'] = content_html[:3000] if len(content_html) >= 3000 else content_html
     return content_data
 
+def analyze_urgent_body_content(body_content):
+    automaton = ahocorasick.Automaton()
+    urgent_body = {}
+    list_of_urgent_body = []
+
+    
+    haystack = body_content.get('content')
+    for idx, key in enumerate(PHISHING_EMAIL_KEYWORDS):
+        automaton.add_word(key, (idx, key))
+    automaton.make_automaton()
+    for end_index, (insert_order, original_value) in automaton.iter(haystack):
+        start_index = end_index - len(original_value) + 1
+        list_of_urgent_body.append(original_value)
+        assert haystack[start_index:start_index + len(original_value)] == original_value
+    urgent_body['urgent_headers'] = list_of_urgent_body
+
+    return urgent_body
 
 def analyze_link_urls(email_file_path):
     """Extract and perform preliminary risk assessment of URLs found in the email.
