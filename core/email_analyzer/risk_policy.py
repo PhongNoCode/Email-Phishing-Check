@@ -1,5 +1,5 @@
 THRESHOLDS = {
-    'safe': 30,
+    'safe': 500,
     'suspicious': 65
 }
 
@@ -13,7 +13,7 @@ AUTHENTICATION_SCORES = {
 
 
 HEADER_SCORES = {
-    'urgent_header': 10,
+    'urgent_header': 10
 }
 
 URL_SCORES = {
@@ -53,4 +53,8 @@ IDENTITY_SCORES = {
     'typo_from': 20,
     'typo_reply_to': 15,
     'typo_return_path': 15
+}
+
+BODY_SCORES = {
+    'dangerous_content': 10
 }
