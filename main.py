@@ -72,7 +72,7 @@ def evaluate_risk_score(analyzer_instance, risk_score):
             'extension' : analyzer_instance.ext,
             'url' : analyzer_instance.url,
             'subject' : analyzer_instance.subject,
-            'hash_of_file' : analyzer_instance.hash_of_file,
+            #'hash_of_file' : analyzer_instance.hash_of_file,
             'urgent_headers' : analyzer_instance.urgent_headers,
             'macro_analysis' : analyzer_instance.macro_analysis,
             'homoglyph': analyzer_instance.homoglyph,

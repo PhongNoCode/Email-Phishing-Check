@@ -23,7 +23,7 @@
   <div class="header-high">
     <h2>🚨 Global BEC Campaign Analysis</h2>
     <p><strong>Overall Campaign Risk:</strong> HIGH</p>
-    <p><strong>Campaign Correlation:</strong> The analysis identifies a targeted Business Email Compromise (BEC) attack against a specific employee (b.nguyen@techglobal.com.vn). The attacker is leveraging executive impersonation to bypass standard financial controls. While other threads (HR and legitimate billing) appear benign, the primary thread exhibits classic social engineering patterns designed to create a sense of urgency and secrecy to facilitate fraudulent wire transfers.</p>
+    <p><strong>Campaign Correlation:</strong> The analysis reveals a targeted Business Email Compromise (BEC) attack against a specific employee (b.nguyen@techglobal.com.vn). The attacker is leveraging social engineering tactics, specifically impersonating the CEO via a spoofed Gmail account to bypass internal financial controls. The other threads appear to be legitimate business communications, serving as a baseline to contrast against the malicious activity.</p>
   </div>
 
   <h3>🔍 Detailed Thread Analysis</h3>
@@ -36,9 +36,9 @@
     </div>
     <p><strong>Detected Signals:</strong></p>
     <ul>
-      <li><strong>VIP Impersonation:</strong> The sender uses the CEO's name but originates from a public Gmail domain, not the corporate domain.</li>
-      <li><strong>Financial Urgency:</strong> Demands for a $14,500 wire transfer with a strict deadline (11:00 AM).</li>
-      <li><strong>Social Engineering:</strong> Explicit instructions to maintain secrecy ("Do not discuss this with anyone") and claims of being in a meeting to prevent verification via phone.</li>
+      <li><strong>VIP Impersonation:</strong> Attacker uses the CEO's name but sends from a public Gmail domain rather than the corporate domain.</li>
+      <li><strong>Financial Urgency:</strong> Demands for immediate wire transfers ($14,500) with artificial deadlines and threats of company loss.</li>
+      <li><strong>Secrecy Tactics:</strong> Explicit instructions to bypass standard procedures and keep the transaction confidential.</li>
     </ul>
   </div>
 
@@ -50,7 +50,7 @@
     </div>
     <p><strong>Detected Signals:</strong></p>
     <ul>
-      <li><strong>Standard Business Communication:</strong> Appears to be a routine invoice notification from a known service provider. No indicators of urgency or suspicious domain spoofing detected.</li>
+      <li><strong>Standard Business Communication:</strong> Routine invoice notification from a known service provider. No indicators of compromise detected.</li>
     </ul>
   </div>
 
@@ -62,17 +62,17 @@
     </div>
     <p><strong>Detected Signals:</strong></p>
     <ul>
-      <li><strong>Internal Communication:</strong> Legitimate internal HR announcement regarding company policy. Domain matches the corporate infrastructure.</li>
+      <li><strong>Internal Communication:</strong> Legitimate company-wide announcement regarding a corporate event.</li>
     </ul>
   </div>
 
   <h3>🛡️ Global Recommendations</h3>
   <div class="recommendations">
     <ul>
-      <li><strong>Immediate Action:</strong> Block the sender address "ceo.techglobal.vn@gmail.com" at the email gateway and flag all emails from this address as malicious.</li>
-      <li><strong>Out-of-Band Verification:</strong> Implement a mandatory policy requiring verbal or secondary channel verification for any financial requests, regardless of the sender's perceived seniority.</li>
-      <li><strong>Security Awareness:</strong> Conduct targeted training for finance and administrative staff on identifying "CEO Fraud" and the dangers of freemail spoofing.</li>
-      <li><strong>Incident Response:</strong> Review logs to determine if any other employees received similar communications from the identified Gmail address.</li>
+      <li>Immediately block the sender address "ceo.techglobal.vn@gmail.com" and flag all emails from this address as malicious.</li>
+      <li>Implement mandatory out-of-band verification (e.g., phone call to a known number) for any financial requests, regardless of the sender's perceived authority.</li>
+      <li>Conduct security awareness training focusing on "CEO Fraud" and the dangers of public freemail domains impersonating internal executives.</li>
+      <li>Review and enforce strict financial authorization workflows that require multi-person approval for wire transfers.</li>
     </ul>
   </div>
 

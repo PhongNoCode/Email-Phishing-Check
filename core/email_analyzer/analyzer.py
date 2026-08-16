@@ -9,7 +9,6 @@ from core.email_analyzer.modules import identity
 from core.email_analyzer.modules import url
 from core.email_analyzer.modules import body
 from core.email_analyzer.modules import header as header_module
-from core.email_analyzer.modules import image 
 from core.parsers import *
 console = Console()
 
@@ -28,12 +27,13 @@ class StaticAnalyzer:
         self.urgent_headers = analyze_urgent_headers(email_file)
         self.macro_analysis = analyze_email_macros(email_file)
         self.body_content = analyze_body_content(email_file)
+        self.pdf = analyze_pdf(email_file)
         self.urgent_body_content = analyze_urgent_body_content(self.body_content)
         self.homoglyph = analyze_homoglyph(self.header, self.url)
         self.typo = analyze_typo(self.header, self.url)
         self.total_score = 0
 
-    
+    # Header
     def check_from_vs_return_path(self):
         return authentication.check_from_vs_return_path(self.header)
 
@@ -49,7 +49,7 @@ class StaticAnalyzer:
     def check_spf(self):
         return authentication.check_spf(self.header)
 
-    
+    # Attachments
     def check_attachment_hashes(self):
         return attachment.check_attachment_hashes(self.hash_of_file)
             
@@ -59,11 +59,11 @@ class StaticAnalyzer:
     def check_macros(self):
         return attachment.check_macros(self.macro_analysis)
 
-   
+    # URLs
     def check_urls(self):
         return url.check_urls(self.url)
 
-    
+    # Special
     def check_urgent_headers(self):
         return header_module.check_urgent_headers(self.urgent_headers)
 
