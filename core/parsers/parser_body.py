@@ -1,10 +1,9 @@
 import re
-import email
 from bs4 import BeautifulSoup
 import ahocorasick
 from core.email_analyzer.constants import PHISHING_EMAIL_KEYWORDS
 
-def analyze_body_content(email_file_path):
+def analyze_body_content(email_message):
     """Analyze the body contetn
     
     Args:
@@ -13,8 +12,6 @@ def analyze_body_content(email_file_path):
     Returns:
         dict: A dictionary containing the content of an email.
     """
-    with open(email_file_path, 'rb') as email_file:
-        email_message = email.message_from_binary_file(email_file)
     content_text = []
     content_html = []
     content_data = {}
@@ -55,7 +52,7 @@ def analyze_urgent_body_content(body_content):
 
     return urgent_body
 
-def analyze_link_urls(email_file_path):
+def analyze_link_urls(body_text):
     """Extract and perform preliminary risk assessment of URLs found in the email.
 
     Args:
@@ -65,36 +62,46 @@ def analyze_link_urls(email_file_path):
         dict: A dictionary where the key is the URL and the value is the suspicious score 
               (0 for raw IPs, 1 for shortened URLs).
     """
-    with open(email_file_path, 'r', encoding='utf-8') as email_file:
-        full_email_text = "".join(email_file.readlines())
-
-    # Refer to https://stackoverflow.com/questions/49654499/python-extract-urls-from-email-messages
     regex_find_url = r'http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+'
-    urls = re.findall(regex_find_url, full_email_text)  
+    urls = re.findall(regex_find_url, body_text)  
+    
     regex_raw_ipv4 = r'https?://(?:\d{1,3}\.){3}\d{1,3}(?::\d+)?(?:/[^\s]*)?'
     regex_raw_ipv6 = r'https?://\[?[0-9a-fA-F:]+\]?(?::\d+)?(?:/[^\s]*)?'
+    
     url_risk_scores = {}
-    uniq_links = set()
-    for url in urls:
-        try:
-            if re.match(regex_raw_ipv4, url):
-                url_risk_scores[url] = 0
-                uniq_links.add(url)
-                continue
-            elif re.match(regex_raw_ipv6, url):
-                url_risk_scores[url] = 0
-                uniq_links.add(url)
-                continue
-        except Exception as e:
-            print(e)
+    SHORTENERS = {'bit.ly', 'tinyurl.com', 'cutt.ly'}
+    
+    
+    unique_urls = set(urls)
+    
+    for url in unique_urls:
+
+        if re.match(regex_raw_ipv4, url) or re.match(regex_raw_ipv6, url):
+            url_risk_scores[url] = 0
+            continue
+
         is_shortened = False
-        for shortener in {'bit.ly', 'tinyurl.com', 'cutt.ly'}:
+        for shortener in SHORTENERS:
             if shortener in url:
-                uniq_links.add(url)
                 url_risk_scores[url] = 1    
                 is_shortened = True
                 break   
+                
         if not is_shortened:      
             url_risk_scores[url] = 2      
-            uniq_links.add(url)
+                   
     return url_risk_scores
+
+def analyze_potential_passwords(raw_email_text):
+    content = " ".join(raw_email_text.split())
+    """Rule: 
+                password | pass | pwd : 123
+                password | pass | pwd is 123
+                ...
+    """        
+    rule = r'\b(?:password|passwd|pwd|pass)(?:\s*(?:is|here|below))?\s*[:=\-]?\s*?(\S+)'
+    pass_findings = re.findall(rule, content)
+    pass_findings.extend(["", None])
+
+    return pass_findings
+
