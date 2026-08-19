@@ -23,3 +23,6 @@ pymupdf
 
 # --- HTML Parsing ---
 beautifulsoup4
+
+# --- MIME ---
+python-magic-bin
