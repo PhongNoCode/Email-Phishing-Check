@@ -3,67 +3,78 @@ import os
 import json
 import sys
 from pathlib import Path
+from core.utils.api import analyze_json_structure
+from core.ast_analyzer.visitor import Visitor
+import os
+import json
+import ast
+from core.ast_analyzer.visitor import Visitor 
 
-from ai import check_json_structure
-from analyze_result_from_json import analyze_file
+def analyze_python_files(extracted_files):
+    """Reads Python files from extracted attachments and analyzes them for vulnerabilities.
 
-# Imported from separated files
-from visitor import Visitor
-
-
-def analyze_python_files():
-    """Reads Python files from a directory and analyzes them for vulnerabilities.
-
-    Walks through the specified directory, parses each Python file into an AST,
+    Collects all .py files, parses each into an AST,
     uses the Visitor class to find dangerous function calls or assignments,
     and outputs the findings to a JSON report file.
     """
-    # Read all Python files in the specified directory and its subdirectories
+
     python_file_paths = []
-    for root, dirs, files in os.walk(r"D:\projects\DataScience\Email\Test"):
-        for file_name in files:
-            if file_name.endswith('.py'):
-                python_file_paths.append(os.path.join(root, file_name))
+    for original_file_name, file_paths in extracted_files.items():
+        for file_path in file_paths:
+            if file_path.lower().endswith('.py'):
+                python_file_paths.append(file_path)
 
     if len(python_file_paths) == 0:
-        sys.exit(0)
+        return None
 
     final_report = {"total_files": len(python_file_paths), "files": []}
 
     for file_path in python_file_paths:
+        try:
+            with open(file_path, "r", encoding="utf-8") as source_file:
+                source_code = source_file.read()  
 
-        with open(file_path, "r", encoding="utf-8") as source_file:
-            source_code = source_file.read()  
+            print(f'[+] Analyzing code from file: {file_path}')
 
-        # parser = ast.dump(ast.parse(source_code), indent = 4)
-        print(f'[+] Analyzing code from file: {file_path}')
- 
-        ast_tree = ast.parse(source_code)
-        
-        ast_visitor = Visitor()
-
-        ast_visitor.visit(ast_tree)
-
-        file_analysis_report = {"file_path": file_path, 'findings': ast_visitor.findings}
-
-        final_report["files"].append(file_analysis_report)
-        
-        print('\n')
-
-    # Export findings to JSON
-    with open(r'./Result/json_file_history.json', 'w', encoding='utf-8') as json_output_file:
-        json.dump(final_report, json_output_file, indent=4)
+            ast_tree = ast.parse(source_code)
             
-        # print(ast_visitor.print_value())
+            ast_visitor = Visitor()
+            ast_visitor.visit(ast_tree)
 
-    # with open(python_file_paths[2], "r", encoding="utf-8") as f:
-    #         test_file = f.read()
+            file_analysis_report = {"file_path": file_path, 'findings': ast_visitor.findings}
+            final_report["files"].append(file_analysis_report)
             
-    # print(ast.dump(ast.parse(test_file), indent = 4))
+            print('\n')
+            
+        except Exception as e:
+            print(f'[-] Error analyzing {file_path}: {e}\n')
+            
+            final_report["files"].append({"file_path": file_path, "error": str(e)})
 
+    output_dir = r"D:\projects\DataScience\Side-Project\Email-Phishing-Check-main\core\outputs\python_files"
+    
+    os.makedirs(output_dir, exist_ok=True) 
+    
+    output_file_path = os.path.join(output_dir, "ast_report.json")
 
-if __name__ == '__main__':
-    print('\n')
-    analyze_python_files()
-    print('\n')
-    # analyze_file()
+    existing_json_format = []
+    
+    if os.path.isfile(output_file_path):
+        try:
+            with open(output_file_path, 'r', encoding='utf-8') as f:
+                content = f.read().strip()
+                if content:
+                    existing_json_format = json.loads(content)
+                    if not isinstance(existing_json_format, list):
+                        existing_json_format = [existing_json_format]
+        except json.JSONDecodeError:
+            pass
+    existing_json_format.append(final_report)
+
+    
+    with open(output_file_path, 'w', encoding='utf-8') as json_output_file:
+        json.dump(existing_json_format, json_output_file, indent=4)
+        
+    
+    return final_report
+            
