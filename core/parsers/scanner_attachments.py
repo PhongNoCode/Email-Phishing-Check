@@ -1,13 +1,14 @@
-import re
-import email
 import hashlib
 from oletools.olevba import VBA_Parser, detect_autoexec, detect_suspicious, detect_patterns
 from core.email_analyzer.constants import DANGEROUS_CONTENT_TYPES
 import pymupdf
 import zipfile
 import io
+import os
+import magic
 
-def analyze_attachment(email_file_path):
+
+def analyze_attachment(extracted_files):
     """Extract attachments and calculate their SHA256 hashes.
 
     Args:
@@ -16,23 +17,17 @@ def analyze_attachment(email_file_path):
     Returns:
         dict: A dictionary where the key is the attachment filename and the value is its SHA256 hash.
     """
-    with open(email_file_path, 'rb') as email_file:
-        email_message = email.message_from_binary_file(email_file)
         
     attachment_hashes = {}
-    for part in email_message.walk():
-        if part.get_content_disposition() == 'attachment' or part.get_content_disposition() == 'inline':
-            file_content = part.get_payload(decode=True)
-            sha256_hasher = hashlib.sha256()
-            sha256_hasher.update(file_content)
-            
-            if part.get_filename() != None:
-                attachment_hashes[str(part.get_filename())] = sha256_hasher.hexdigest()
-                
+    for original_file_name, file_paths in extracted_files.items():
+        for file_path in file_paths:
+            with open(file_path, 'rb') as f:
+                file_hash = hashlib.file_digest(f, 'sha256').hexdigest()
+            attachment_hashes[os.path.basename(file_path)] = file_hash
     return attachment_hashes
 
 
-def analyze_extension(email_file_path):
+def analyze_extension(extracted_files):
     """Check the extension and content_type of attachments for potential threats.
 
     Args:
@@ -41,19 +36,18 @@ def analyze_extension(email_file_path):
     Returns:
         dict: A dictionary containing attachment details and their assigned threat score 
               (0 is extremely dangerous, 1 is warning, 2 is normal).
-    """
-    with open(email_file_path, 'rb') as email_file:
-        email_message = email.message_from_binary_file(email_file)
-        
+    """       
     extension_scores = {}
-    for part in email_message.walk():       
-        file_name = part.get_filename()
-        content_type = part.get_content_type()
-        
-        # 0 is extremely dangerous, 1 is warning, 2 is normal
-        if file_name != None and content_type != None:   
-            extension = "".join(re.findall(r'(\..*$)', file_name.strip()))
+    for original_file_name, file_paths in extracted_files.items():
+        for file_path in file_paths:      
+            file_name = os.path.basename(file_path)
+            content_type = magic.from_file(file_path, mime=True)
+            if content_type is None:
+                content_type = "application/octet-stream"
             
+            # 0 is extremely dangerous, 1 is warning, 2 is normal
+            extension = os.path.splitext(file_name)[1].lower()
+                
             if extension in DANGEROUS_CONTENT_TYPES and content_type not in DANGEROUS_CONTENT_TYPES[extension]:
                 extension_scores[file_name + ' ' + extension + ' ' + content_type] = 0
             elif extension in DANGEROUS_CONTENT_TYPES:
@@ -63,27 +57,26 @@ def analyze_extension(email_file_path):
                 
     return extension_scores
 
-
-def analyze_email_macros(email_file_path):
-    """Analyze the email for macros in attachments and extract relevant information."""
-    with open(email_file_path, 'rb') as email_file:
-            email_message = email.message_from_binary_file(email_file)
+def analyze_email_macros(extracted_files):
+    """Analyze the email for macros in attachments and extract relevant information.
+    
+        Args:
+            email_message (obj): all email.
+    
+        Returns:
+            dict: A dictionary containing attachment details and their assigned threat score.
+        """      
     macros = []
-    for part in email_message.walk():
-        try:
-            if part.get_content_disposition() == 'attachment':
-                with open(f'./core/outputs/{part.get_filename()}', 'wb') as attachment_file:
-                    attachment_file.write(part.get_payload(decode=True))
-
-                attachment_filename = str(part.get_filename())
-                attachment_data = open('./core/outputs/'+attachment_filename, 'rb').read()
-                vba_parser = VBA_Parser(attachment_filename, data=attachment_data)
+    for original_file_name, file_paths in extracted_files.items():
+        for file_path in file_paths:
+            try:
+                vba_parser = VBA_Parser(file_path)
 
                 if vba_parser.detect_vba_macros():
                     vba_parser.analyze_macros()
-                    for filename, stream_path, vba_filename, vba_code in vba_parser.extract_macros():
+                    for vba_filename, vba_code in vba_parser.extract_macros():
                         res_macro = {}
-                        res_macro['attachment_name'] = attachment_filename
+                        res_macro['attachment_name'] = os.path.basename(file_path)
                         res_macro['vba_filename'] = vba_filename
                         if vba_parser.nb_autoexec > 0:
                             res_macro['autoexec'] = vba_parser.nb_autoexec
@@ -129,34 +122,75 @@ def analyze_email_macros(email_file_path):
                         res_macro['patterns'] = pattern     
                         macros.append(res_macro)
                     vba_parser.close() 
-        except Exception as e:
-            print(f"Error processing attachment {part.get_filename()}: {e}")                     
+            except Exception as e:
+                print(f"Error processing attachment {os.path.basename(file_path)}: {e}")                      
     return macros
 
 #   https://www.kaggle.com/datasets/beatoa/spamassassin-public-corpus/data
-def analyze_pdf(email_file_path):
-    with open(email_file_path, 'rb') as email_file:
-        email_message = email.message_from_binary_file(email_file)
+def analyze_pdf(extracted_files):
+    for original_file_name, file_paths in extracted_files.items():
+        for file_path in file_paths:
+            if file_path.lower().endswith('.pdf'):
+                try:
+                    doc = pymupdf.open(file_path)
+                    for i, page in enumerate(doc):
+                        pix = page.get_pixmap(dpi=200)
+                        safe_base_name = os.path.basename(file_path)
+                        img_path = f"./core/data/output/{safe_base_name}_page-{i+1}.png"
+                        pix.save(img_path)
+                        print(page.get_text())
+                except Exception as e:
+                    print(e)
+    return 
+
+
+def analyze_universal_extract(email_message, password):
+    extracted_files = {}
     for part in email_message.walk():
-        if part.get_content_disposition() == 'attachment' or part.get_content_disposition() == 'inline':
-            file_content = part.get_payload(decode=True)
-            if part.get_filename() != None and part.get_content_type() == 'application/zip':
-                with zipfile.ZipFile(file=io.BytesIO(file_content)) as z:
-                    for name in z.namelist():
-                        print(name)
-                        if name.endswith('.pdf'):
-                            pdf_bytes = z.read(name)
-                            doc = pymupdf.open(stream=pdf_bytes, filetype='pdf')
-                            for i, page in enumerate(doc):
-                                pix = page.get_pixmap(dpi=200)
-                                pix.save('.//core//outputs//'+f"page_from_zip-{i+1}.png")
-                                print(page.get_text())
-            if part.get_filename() != None and part.get_content_type() == 'application/pdf':
-                doc = pymupdf.open(stream=file_content, filetype='pdf')
-                for i, page in enumerate(doc):
-                    pix = page.get_pixmap(dpi=200)
-                    pix.save(f"page_direct-{i+1}.png")
-                    print(page.get_text())
-            if part.get_filename() != None and '.png' in part.get_filename():
-                pass
+        if part.get_content_disposition() not in ['attachment', 'inline']:
+            continue
+        
+        file_name = part.get_filename()
+        file_content = part.get_payload(decode=True)    
+
+        if not file_name or not file_content:
+            continue
+        
+        if file_name.lower().endswith('.zip'):
+            with zipfile.ZipFile(io.BytesIO(file_content)) as archive:
+                if len(archive.namelist()) == 0:
+                    continue
+                for passwd in password:
+                    try:
+                        is_file = False
+                        pwd = passwd.encode('utf-8') if passwd else None
+                        for name in archive.namelist():
+                            if not name.endswith('/'):
+                                is_file = True
+                                archive.read(name, pwd=pwd)
+                                break
+                        if is_file:
+                            extracted_files[file_name] = []
+                            for name in archive.namelist():
+                                extracted_files[file_name].append(f'./core/data/output/files/{file_name[:-4]}/{name}')
+                            archive.extractall(f'./core/data/output/files/{file_name[:-4]}/', pwd=pwd)
+                            print(f'The correct password is: {passwd if passwd else "No password"}')
+                            break
+                    except Exception as e:
+                        pass
+        else:
+            try:
+                output_dir = './core/data/output/files/'
+                os.makedirs(output_dir, exist_ok=True)
+                
+                safe_file_name = os.path.basename(file_name)
+                file_path = os.path.join(output_dir, safe_file_name)
+                
+                with open(file_path, 'wb') as f:
+                    f.write(file_content)
+                
+                extracted_files[file_name] = [file_path]
+            except Exception as e:
+                print(f"Error saving direct attachment {file_name}: {e}")
+    return extracted_files
             
