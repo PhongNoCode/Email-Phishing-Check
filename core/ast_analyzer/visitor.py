@@ -1,8 +1,10 @@
 import ast
 import base64
-from config import black_list, dangerous_classes
-from environment import Environment
+from core.ast_analyzer.config import black_list, dangerous_classes
+from core.ast_analyzer.environment import Environment
+from rich.console import Console
 
+console = Console()
 
 class Visitor(ast.NodeVisitor):
     """AST Node Visitor for analyzing and detecting dangerous Python code patterns.
@@ -55,7 +57,7 @@ class Visitor(ast.NodeVisitor):
             
             if node.func.value.id in black_list:
                 if node.func.attr in black_list[node.func.value.id]:
-                    print(f'\t[-] Warning!!! There is {node.func.value.id}.{node.func.attr} in the file through call directly, at the line {node.lineno}')
+                    console.print(f'\t[-] [bold red]Warning!!![/bold red] There is [red]{node.func.value.id}.{node.func.attr}[/red] in the file through call directly, at the line [yellow]{node.lineno}[/yellow]')
                     
                     call_finding = {'type': '', 'function': '', 'args': '', 'kwargs': ''}
                     call_finding['type'] = 'Call'
@@ -77,7 +79,7 @@ class Visitor(ast.NodeVisitor):
 
             elif self.alias_map_import.get(node.func.value.id) in black_list:
                 if node.func.attr in black_list[self.alias_map_import.get(node.func.value.id)]:
-                    print(f'\t[-] Warning!!! There is {node.func.value.id}.{node.func.attr} in the file through import alias, at the line {node.lineno}')
+                    console.print(f'\t[-] [bold red]Warning!!![/bold red] There is [red]{node.func.value.id}.{node.func.attr}[/red] in the file through import alias, at the line [yellow]{node.lineno}[/yellow]')
           
                     call_finding = {'type': '', 'function': '', 'args': '', 'kwargs': ''}
                     call_finding['type'] = 'Call'
@@ -95,7 +97,7 @@ class Visitor(ast.NodeVisitor):
         # Check import from and builtins call
         if isinstance(node.func, ast.Name):
             if node.func.id in self.alias_map_importfrom and self.alias_map_importfrom[node.func.id] in black_list:
-                print(f'\t[-] Warning!!! There is {node.func.id} in the file through import from, at the line {node.lineno}')
+                console.print(f'\t[-] [bold red]Warning!!![/bold red] There is [red]{node.func.id}[/red] in the file through import from, at the line [yellow]{node.lineno}[/yellow]')
 
                 call_finding = {'type': '', 'function': '', 'args': '', 'kwargs': ''}
                 call_finding['type'] = 'Call'
@@ -111,7 +113,7 @@ class Visitor(ast.NodeVisitor):
                 self.findings.append(call_finding)
 
             elif node.func.id in black_list['builtins']:
-                print(f'\t[-] Warning!!! There is {node.func.id} in the file through builtins, at the line {node.lineno}')
+                console.print(f'\t[-] [bold red]Warning!!![/bold red] There is [red]{node.func.id}[/red] in the file through builtins, at the line [yellow]{node.lineno}[/yellow]')
                 
                 call_finding = {'type': '', 'function': '', 'args': '', 'kwargs': ''}
                 call_finding['type'] = 'Call'
@@ -133,9 +135,9 @@ class Visitor(ast.NodeVisitor):
             for arg in node.args:
                 self.visit(arg)
             if len(self.strings) == 1 and self.strings[0] in dangerous_classes:
-                print(f"[-] Detected a dangerous function {self.strings[0]} assigned to a variable at the line {node.lineno}")
+                console.print(f'\t[-] [bold red]Detected a dangerous function[/bold red] [red]{self.strings[0]}[/red] assigned to a variable at the line [yellow]{node.lineno}[/yellow]')
             elif len(self.strings) == 2:
-                print(f"[-] Detected a dangerous function {'.'.join(self.strings)} assigned to a variable at the line {node.lineno}")
+                console.print(f'\t[-] [bold red]Detected a dangerous function[/bold red] [red]{".".join(self.strings)}[/red] assigned to a variable at the line [yellow]{node.lineno}[/yellow]')
         except Exception as e:
             print(e)
 
@@ -217,7 +219,7 @@ class Visitor(ast.NodeVisitor):
         try:
             self.visit(node.value)
             if len(self.strings_assign) == 1:
-                print(f"[-] Detected a dangerous function {self.strings_assign[0]} assigned to a variable at the line {node.lineno}")
+                console.print(f'\t[-] [bold red]Detected a dangerous function[/bold red] [red]{self.strings_assign[0]}[/red] assigned to a variable at the line [yellow]{node.lineno}[/yellow]')
             elif len(self.strings_assign) == 2:
                 print(f"[-] Detected a dangerous function {'.'.join(self.strings_assign)} assigned to a variable at the line {node.lineno}")
         except Exception as e:

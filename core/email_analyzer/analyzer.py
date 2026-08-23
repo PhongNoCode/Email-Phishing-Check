@@ -10,6 +10,7 @@ from core.email_analyzer.modules import url
 from core.email_analyzer.modules import body
 from core.email_analyzer.modules import header as header_module
 from core.ast_analyzer.main_ast import analyze_python_files
+from core.email_analyzer.bec_analyzer import analyze_bec
 from core.parsers import *
 console = Console()
 
@@ -46,6 +47,7 @@ class StaticAnalyzer:
         self.homoglyph = analyze_homoglyph(self.header, self.url)
         self.typo = analyze_typo(self.header, self.url)
 
+        self.bec = analyze_bec(self.header, self.subject, self.body_content)
         self.ast_analysis = analyze_python_files(self.extracted_files)
         
         self.total_score = 0

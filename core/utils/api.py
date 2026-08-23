@@ -86,20 +86,4 @@ def analyze_json_structure():
     )
     return response.text
 
-def generate_ast_ai_report():
-    """Calls the AI analysis function and saves the result to a text file."""
-    ai_analysis_result = analyze_json_structure()
-    
-    if not os.path.isdir('./core/outputs/Result'):
-        os.mkdir('./core/outputs/Result')
-        
-    with open(r'./core/outputs/Result/result_from_json.txt', 'a+', encoding='utf-8') as result_file:
-        result_file.write(ai_analysis_result)
 
-
-if __name__ == '__main__':
-    # check_hash('44d88612fea8a8f36de82e1278abb02f')
-    # check_high_score() 
-    # check_bec('test.txt')
-    # generate_ast_ai_report()
-    pass

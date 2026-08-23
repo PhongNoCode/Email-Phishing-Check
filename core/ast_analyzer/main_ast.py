@@ -1,9 +1,6 @@
 import ast
 import os
 import json
-import sys
-from pathlib import Path
-from core.utils.api import analyze_json_structure
 from core.ast_analyzer.visitor import Visitor
 import os
 import json
@@ -51,7 +48,7 @@ def analyze_python_files(extracted_files):
             
             final_report["files"].append({"file_path": file_path, "error": str(e)})
 
-    output_dir = r"D:\projects\DataScience\Side-Project\Email-Phishing-Check-main\core\outputs\python_files"
+    output_dir = r"./core/outputs"
     
     os.makedirs(output_dir, exist_ok=True) 
     

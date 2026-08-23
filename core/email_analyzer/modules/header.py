@@ -1,5 +1,5 @@
 from rich.console import Console
-from core.email_analyzer.risk_policy import HEADER_SCORES, IDENTITY_SCORES
+from core.email_analyzer.risk_policy import HEADER_SCORES
 
 console = Console()
 

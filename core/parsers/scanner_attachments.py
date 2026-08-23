@@ -1,6 +1,6 @@
 import hashlib
 from oletools.olevba import VBA_Parser, detect_autoexec, detect_suspicious, detect_patterns
-from core.email_analyzer.constants import DANGEROUS_CONTENT_TYPES
+from core.email_analyzer.constants import DANGEROUS_CONTENT_TYPES, OFFICE_EXTENSIONS        
 import pymupdf
 import zipfile
 import io
@@ -69,6 +69,8 @@ def analyze_email_macros(extracted_files):
     macros = []
     for original_file_name, file_paths in extracted_files.items():
         for file_path in file_paths:
+            if not file_path.lower().endswith(OFFICE_EXTENSIONS):
+                continue
             try:
                 vba_parser = VBA_Parser(file_path)
 
@@ -136,7 +138,7 @@ def analyze_pdf(extracted_files):
                     for i, page in enumerate(doc):
                         pix = page.get_pixmap(dpi=200)
                         safe_base_name = os.path.basename(file_path)
-                        img_path = f"./core/data/output/{safe_base_name}_page-{i+1}.png"
+                        img_path = f"./core/outputs/{safe_base_name}_page-{i+1}.png"
                         pix.save(img_path)
                         print(page.get_text())
                 except Exception as e:
@@ -180,7 +182,7 @@ def analyze_universal_extract(email_message, password):
                         pass
         else:
             try:
-                output_dir = './core/data/output/files/'
+                output_dir = './core/outputs/files/'
                 os.makedirs(output_dir, exist_ok=True)
                 
                 safe_file_name = os.path.basename(file_name)

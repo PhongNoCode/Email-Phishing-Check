@@ -4,13 +4,9 @@
   body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; background-color: #f9f9f9; padding: 20px; }
   .container { max-width: 900px; margin: 0 auto; background: #fff; padding: 25px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
   .header-high { background-color: #ffebee; color: #c62828; padding: 15px; border-radius: 6px; border-left: 5px solid #c62828; margin-bottom: 20px;}
-  .header-medium { background-color: #fff3e0; color: #ef6c00; padding: 15px; border-radius: 6px; border-left: 5px solid #ef6c00; margin-bottom: 20px;}
-  .header-low { background-color: #e8f5e9; color: #2e7d32; padding: 15px; border-radius: 6px; border-left: 5px solid #2e7d32; margin-bottom: 20px;}
   .thread-card { border: 1px solid #e0e0e0; border-radius: 6px; padding: 15px; margin-bottom: 15px; background: #fafafa; }
   .participants-box { background: #eeeeee; padding: 10px; border-radius: 4px; margin-bottom: 15px; font-family: monospace; font-size: 0.95em; }
   .risk-high { color: #d32f2f; font-weight: bold; }
-  .risk-medium { color: #f57c00; font-weight: bold; }
-  .risk-low { color: #388e3c; font-weight: bold; }
   .recommendations { background-color: #e3f2fd; padding: 15px; border-radius: 6px; border-left: 5px solid #1976d2; }
   h2, h3 { border-bottom: 1px solid #eee; padding-bottom: 5px; }
   ul { margin-top: 5px; }
@@ -23,56 +19,36 @@
   <div class="header-high">
     <h2>🚨 Global BEC Campaign Analysis</h2>
     <p><strong>Overall Campaign Risk:</strong> HIGH</p>
-    <p><strong>Campaign Correlation:</strong> The analysis reveals a targeted Business Email Compromise (BEC) attack against a specific employee (b.nguyen@techglobal.com.vn). The attacker is leveraging social engineering tactics, specifically impersonating the CEO via a spoofed Gmail account to bypass internal financial controls. The other threads appear to be legitimate business communications, serving as a baseline to contrast against the malicious activity.</p>
+    <p><strong>Campaign Correlation:</strong> This interaction exhibits classic BEC indicators, specifically the use of a deceptive sender domain designed to mimic internal infrastructure, combined with a malicious payload delivery attempt disguised as an urgent executive directive.</p>
   </div>
 
   <h3>🔍 Detailed Thread Analysis</h3>
   
   <div class="thread-card">
     <p><strong>Risk Level:</strong> <span class="risk-high"> HIGH </span></p>
+    
     <div class="participants-box">
-      <p>📥 <strong>To (Delivered-To):</strong> b.nguyen@techglobal.com.vn</p>
-      <p>👤 <strong>From (Sender):</strong> "Tran Van A" &lt;ceo.techglobal.vn@gmail.com&gt;</p>
+      <p>📥 <strong>To (Delivered-To):</strong> accountant@victim-corp.com</p>
+      <p>👤 <strong>From (Sender):</strong> "CEO Johnathan Vance" &lt;ceo-direct-update@secure-internal-portal.net&gt;</p>
     </div>
-    <p><strong>Detected Signals:</strong></p>
-    <ul>
-      <li><strong>VIP Impersonation:</strong> Attacker uses the CEO's name but sends from a public Gmail domain rather than the corporate domain.</li>
-      <li><strong>Financial Urgency:</strong> Demands for immediate wire transfers ($14,500) with artificial deadlines and threats of company loss.</li>
-      <li><strong>Secrecy Tactics:</strong> Explicit instructions to bypass standard procedures and keep the transaction confidential.</li>
-    </ul>
-  </div>
 
-  <div class="thread-card">
-    <p><strong>Risk Level:</strong> <span class="risk-low"> LOW </span></p>
-    <div class="participants-box">
-      <p>📥 <strong>To (Delivered-To):</strong> b.nguyen@techglobal.com.vn</p>
-      <p>👤 <strong>From (Sender):</strong> "CloudVN Billing" &lt;billing@cloudvn.example.com&gt;</p>
-    </div>
     <p><strong>Detected Signals:</strong></p>
     <ul>
-      <li><strong>Standard Business Communication:</strong> Routine invoice notification from a known service provider. No indicators of compromise detected.</li>
-    </ul>
-  </div>
-
-  <div class="thread-card">
-    <p><strong>Risk Level:</strong> <span class="risk-low"> LOW </span></p>
-    <div class="participants-box">
-      <p>📥 <strong>To (Delivered-To):</strong> all@techglobal.com.vn</p>
-      <p>👤 <strong>From (Sender):</strong> "Human Resources" &lt;hr@techglobal.com.vn&gt;</p>
-    </div>
-    <p><strong>Detected Signals:</strong></p>
-    <ul>
-      <li><strong>Internal Communication:</strong> Legitimate company-wide announcement regarding a corporate event.</li>
+      <li><strong>VIP Impersonation:</strong> The sender uses the name of the CEO to exert authority and pressure the recipient into compliance.</li>
+      <li><strong>Suspicious Infrastructure:</strong> The sender domain (secure-internal-portal.net) is external and unrelated to the victim's corporate domain.</li>
+      <li><strong>Malicious Payload/Action:</strong> The request to execute a "Python utility script" is a high-risk indicator for malware delivery or credential harvesting.</li>
+      <li><strong>Urgency & Secrecy:</strong> The email uses "URGENT" in the subject and explicitly demands "Do not forward," a common tactic to prevent internal verification.</li>
+      <li><strong>Reply-To Anomaly:</strong> The presence of a "darkweb-node" in the reply-to header strongly suggests an attacker-controlled infrastructure for command and control.</li>
     </ul>
   </div>
 
   <h3>🛡️ Global Recommendations</h3>
   <div class="recommendations">
     <ul>
-      <li>Immediately block the sender address "ceo.techglobal.vn@gmail.com" and flag all emails from this address as malicious.</li>
-      <li>Implement mandatory out-of-band verification (e.g., phone call to a known number) for any financial requests, regardless of the sender's perceived authority.</li>
-      <li>Conduct security awareness training focusing on "CEO Fraud" and the dangers of public freemail domains impersonating internal executives.</li>
-      <li>Review and enforce strict financial authorization workflows that require multi-person approval for wire transfers.</li>
+      <li>Immediately block the domain 'secure-internal-portal.net' at the email gateway level.</li>
+      <li>Quarantine the message and perform a forensic analysis on the attached script if it has been downloaded.</li>
+      <li>Implement mandatory out-of-band verification (e.g., phone call or internal chat) for any requests involving software execution or financial transactions.</li>
+      <li>Conduct an immediate security awareness briefing regarding "Urgent Executive" phishing tactics.</li>
     </ul>
   </div>
 

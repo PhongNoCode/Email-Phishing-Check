@@ -100,19 +100,18 @@ def main():
     """Main function to start the lifecycle of fetching and statically analyzing each file."""
     target_files = get_target_files()
     for file_path in target_files:
+        print()
         print(f'---------- Analyzing the file {file_path} ----------')      
-        
         analyzer = StaticAnalyzer(file_path)
         analyzer.run_all()
         risk_score = analyzer.total_score
         
         print(evaluate_risk_score(analyzer, risk_score))
         print('\n' * 5)
-        bec_analyzer.analyze_bec(file_path)
 
     parse_text()
     generate_bec_report('./core/outputs/output_to_AI.json')
-    console.print('[yellow]Analyzed BEC Successfully!!!![/yellow] You can check the output by clicking on the [blue]report.html[/blue]')
+    console.print('[yellow]Analyzed BEC Successfully!!!![/yellow] You can check the output by clicking in the [blue]./core/outputs/report.html[/blue]')
         
 if __name__ == '__main__':
     main()

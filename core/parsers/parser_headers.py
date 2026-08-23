@@ -33,7 +33,7 @@ def analyze_header(email_message):
         header_data['delivered-to'] = email_message.get('Delivered-To')
 
     if email_message.get('To'):
-            header_data['to'] = email_message.get('To')
+        header_data['to'] = email_message.get('To')
 
     for header_name, header_value in email_message.items():
         header_name_low = header_name.lower()

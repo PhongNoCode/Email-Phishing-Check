@@ -100,7 +100,7 @@ def analyze_potential_passwords(raw_email_text):
                 ...
     """        
     rule = r'\b(?:password|passwd|pwd|pass)(?:\s*(?:is|here|below))?\s*[:=\-]?\s*?(\S+)'
-    pass_findings = re.findall(rule, content)
+    pass_findings = re.findall(rule, content, re.IGNORECASE)
     pass_findings.extend(["", None])
 
     return pass_findings

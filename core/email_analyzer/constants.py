@@ -1,5 +1,11 @@
 """Module containing constants and static configurations for the email analysis system."""
 
+OFFICE_EXTENSIONS = ('.doc', '.dot', '.xls', '.xlt', '.xlm', '.ppt', '.pot', '.pps',
+                     '.docx', '.dotx', '.xlsx', '.xltx', '.pptx', '.potx', '.ppsx',
+                     '.docm', '.dotm', '.xlsm', '.xltm', '.pptm', '.potm', '.ppsm',
+                     '.vba', '.bin')
+
+
 DANGEROUS_CONTENT_TYPES = {
     '.exe': [
         'application/x-msdownload',
