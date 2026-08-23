@@ -1,6 +1,7 @@
 # Email Phishing Analyzer
 
 A Python command-line tool for statically analyzing `.eml` files. It looks for phishing indicators, identity spoofing, suspicious links, dangerous attachments, and Business Email Compromise (BEC).
+Please update the score thresholds in ./core/email_analyzer/risk_policy.py (lines 2–3) to fit your use case. The safe score is currently set to 500 for testing purposes. Recommended values are 30 for Safe and 65 for Suspicious.
 
 ## Features
 
