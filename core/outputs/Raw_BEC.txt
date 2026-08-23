@@ -1,8 +1,8 @@
-Key Title: accountant@victim-corp.com::"CEO Johnathan Vance" <ceo-direct-update@secure-internal-portal.net>
-email_domain_from:secure-internal-portal
-email_domain_reply_to:darkweb-node
-message-id:<20260823131500.bec-campaign-001@secure-internal-portal.net>
-to:accountant@victim-corp.com
-subject:URGENT: Q3 Payroll Audit Execution Script
-content:Hi Team, We are conducting an urgent automated verification on all Q3 contractor bank transactions. Please run the attached Python utility script immediately to sync your ledger keys with the updated corporate treasury gateway. Confidentiality is critical. Do not forward. Regards, Johnathan Vance Chief Executive Officer
+Key Title: phishing@pot::BANCO DO BRADESCO LIVELO<banco.bradesco@atendimento.com.br>
+email_domain_from:atendimento
+email_domain_return_path:ubuntu-s-1vcpu-1gb-35gb-intel-sfo3-06
+message-id:<20230919183549.39DEA3F725@ubuntu-s-1vcpu-1gb-35gb-intel-sfo3-06>
+to:phishing@pot
+subject:CLIENTE PRIME - BRADESCO LIVELO: Seu cart��o tem 92.990 pontos LIVELO expirando hoje!
+content:Para visualizar as imagens deste email. Clique aqui Pontos Livelo Banco do Bradesco (Livelo). Você possui Pontos Livelo com seu cartão Banco do Bradesco disponíveis para resgate que expiram HOJE, evite a perda destes pontos realizando agora mesmo o resgate da sua Pontuação Visa Infinite. Você Clientes Banco do Bradesco acumulam pontos livelo todas as vezes que utilizam seus cartões na função débito ou crédito, é rápido e fácil de acumular. Troque seus pontos por milhas aéreas Descontos de até 35% na fatura do cartão 92.990 MIL PONTOS ACUMULADOS EXPIRAM HOJE Resgatar Agora Resgate agora mesmo antes que eles expirem! Aproveite, Troque seus pontos por milhas aereas, Descontos de ate 35% no cartão ou milhares de premios em nosso Catalogo.
 -----------------------

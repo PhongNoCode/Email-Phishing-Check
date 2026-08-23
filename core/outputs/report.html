@@ -19,7 +19,7 @@
   <div class="header-high">
     <h2>🚨 Global BEC Campaign Analysis</h2>
     <p><strong>Overall Campaign Risk:</strong> HIGH</p>
-    <p><strong>Campaign Correlation:</strong> This interaction exhibits classic BEC indicators, specifically the use of a deceptive sender domain designed to mimic internal infrastructure, combined with a malicious payload delivery attempt disguised as an urgent executive directive.</p>
+    <p><strong>Campaign Correlation:</strong> This interaction represents a targeted phishing campaign utilizing brand impersonation (Bradesco/Livelo) to induce urgency. The use of generic infrastructure (Ubuntu-based mail server) and high-pressure tactics indicates a coordinated effort to harvest credentials or financial data from banking customers.</p>
   </div>
 
   <h3>🔍 Detailed Thread Analysis</h3>
@@ -28,27 +28,26 @@
     <p><strong>Risk Level:</strong> <span class="risk-high"> HIGH </span></p>
     
     <div class="participants-box">
-      <p>📥 <strong>To (Delivered-To):</strong> accountant@victim-corp.com</p>
-      <p>👤 <strong>From (Sender):</strong> "CEO Johnathan Vance" &lt;ceo-direct-update@secure-internal-portal.net&gt;</p>
+      <p>📥 <strong>To (Delivered-To):</strong> phishing@pot</p>
+      <p>👤 <strong>From (Sender):</strong> BANCO DO BRADESCO LIVELO &lt;banco.bradesco@atendimento.com.br&gt;</p>
     </div>
 
     <p><strong>Detected Signals:</strong></p>
     <ul>
-      <li><strong>VIP Impersonation:</strong> The sender uses the name of the CEO to exert authority and pressure the recipient into compliance.</li>
-      <li><strong>Suspicious Infrastructure:</strong> The sender domain (secure-internal-portal.net) is external and unrelated to the victim's corporate domain.</li>
-      <li><strong>Malicious Payload/Action:</strong> The request to execute a "Python utility script" is a high-risk indicator for malware delivery or credential harvesting.</li>
-      <li><strong>Urgency & Secrecy:</strong> The email uses "URGENT" in the subject and explicitly demands "Do not forward," a common tactic to prevent internal verification.</li>
-      <li><strong>Reply-To Anomaly:</strong> The presence of a "darkweb-node" in the reply-to header strongly suggests an attacker-controlled infrastructure for command and control.</li>
+      <li><strong>Brand Impersonation:</strong> The sender mimics a major financial institution (Bradesco) to establish false trust.</li>
+      <li><strong>Artificial Urgency:</strong> The subject and body emphasize that points are "expiring today," a classic social engineering tactic to force impulsive user action.</li>
+      <li><strong>Suspicious Infrastructure:</strong> The Message-ID header reveals the email originated from an Ubuntu-based server rather than legitimate Bradesco corporate mail servers.</li>
+      <li><strong>Call to Action:</strong> The email directs users to "Resgatar Agora" (Redeem Now), likely leading to a credential harvesting landing page.</li>
     </ul>
   </div>
 
   <h3>🛡️ Global Recommendations</h3>
   <div class="recommendations">
     <ul>
-      <li>Immediately block the domain 'secure-internal-portal.net' at the email gateway level.</li>
-      <li>Quarantine the message and perform a forensic analysis on the attached script if it has been downloaded.</li>
-      <li>Implement mandatory out-of-band verification (e.g., phone call or internal chat) for any requests involving software execution or financial transactions.</li>
-      <li>Conduct an immediate security awareness briefing regarding "Urgent Executive" phishing tactics.</li>
+      <li>Immediately blacklist the domain 'atendimento.com.br' at the email gateway level.</li>
+      <li>Implement DMARC, SPF, and DKIM enforcement to prevent further spoofing of financial institution identities.</li>
+      <li>Conduct security awareness training focusing on "Urgency-based" phishing lures.</li>
+      <li>Perform a global search for the identified Message-ID across the mail server to identify other potential victims.</li>
     </ul>
   </div>
 

@@ -26,7 +26,7 @@ def check_hash(file_hash):
 def check_high_score(email_features):
     gemini_api_key = os.getenv('GEMINI_API_KEY')
     client = genai.Client(api_key=gemini_api_key)
-    json_prompt = json.dumps(email_features, indent=4, ensure_ascii=False)
+    json_prompt = json.dumps(email_features, ensure_ascii=False, default=str)
 
     with open('./core/data/Skills/AI_analyze.md', 'r', encoding='utf-8') as prompt_file:
         system_prompt = prompt_file.read() 
