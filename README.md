@@ -1,72 +1,129 @@
-# 🛡️ Email Phishing Analyzer
+# Email Phishing Analyzer
 
-**Email Phishing Analyzer** is a robust, modular Python command-line tool designed for static analysis of `.eml` files. It evaluates email headers, routing information, URLs, and attachments to detect phishing attempts, spoofing, and malicious payloads.
+A Python command-line tool for statically analyzing `.eml` files. It looks for phishing indicators, identity spoofing, suspicious links, dangerous attachments, and Business Email Compromise (BEC).
 
-## ✨ Features
+## Features
 
-- **Header & Spoofing Analysis:** Cross-checks `From`, `Return-Path`, `Reply-To`, and `Message-ID` domains to detect impersonation.
-- **Authentication Checks:** Evaluates SPF and DKIM signatures for email integrity.
-- **Attachment Threat Detection:** 
-  - Extracts attachments and calculates their SHA256 hashes.
-  - Validates file extensions and content types against a known dangerous list.
-  - Integrates with **VirusTotal API** for malicious hash lookups.
-  - Intergrates with **Gemini AI model** for analyze suspicious email.
-- **URL Extraction:** Identifies suspicious links, raw IP URLs, and shortened URLs (e.g., bit.ly).
-- **High Performance:** Utilizes `concurrent.futures.ThreadPoolExecutor` for concurrent scanning and analysis, significantly reducing processing time.
-- **Smart Scoring System:** Categorizes emails into `Safe`, `Abnormal`, and `Malicious` based on an aggregated risk score.
+- Parses email headers including `From`, `Return-Path`, `Reply-To`, `Message-ID`, `Delivered-To`, and `To`.
+- Checks domain mismatches, SPF/DKIM results, mail routes, and other spoofing signals.
+- Extracts plain-text and HTML content, urgency keywords, and possible password disclosures.
+- Flags URLs that use raw IP addresses, URL shorteners, typo-squatted domains, or homoglyphs.
+- Extracts attachments, checks their extensions and content types, and calculates SHA-256 hashes.
+- Inspects Office macros, PDF files, and Python files found in attachments.
+- Looks up attachment hashes through VirusTotal.
+- Uses Google Gemini to review higher-risk emails and produce a BEC report.
+- Runs the risk checks concurrently with `ThreadPoolExecutor`.
 
-## 📁 Project Structure
+## Requirements
 
-```
-Email-Phishing-Check/
-├── constants.py      # Static configurations and dangerous content types
-├── parsers.py        # Functions for extracting data from .eml files
-├── analyzer.py       # Core static analysis, scoring logic, and threading
-├── main.py           # CLI entry point and execution flow
-├── API.py            # External API integrations (VirusTotal and Gemini)
-├── .gitignore        # Ignored files and folders
-├── .env.example      # Example API inputs
-├── email-test        # Sample emails
-├── requirements.txt  # Libraries for this project
-└── README.md         # Project documentation
-```
+- Python 3.10 or later.
+- VirusTotal and Google Gemini API keys.
+- Run the commands from the repository root. The application uses relative paths under `core/`.
 
-## 💻 Clone the repository:
+## Installation
 
-```
+```bash
 git clone https://github.com/PhongNoCode/Email-Phishing-Check.git
 cd Email-Phishing-Check
+python -m venv .venv
+```
+
+Activate the virtual environment:
+
+```bash
+# Windows PowerShell
+.venv\Scripts\Activate.ps1
+
+# Linux/macOS
+source .venv/bin/activate
+```
+
+Install the dependencies:
+
+```bash
 pip install -r requirements.txt
 ```
 
-### ⚙️ Configuration (Environment Variables)
+## API configuration
 
-This project requires API keys to function correctly. We use a `.env` file to securely manage these credentials.
+Create a `.env` file in the repository root:
 
-1. Locate the `.env.example` file in the root directory.
-2. Duplicate this file and rename the copy to `.env` (do not delete the dot at the beginning).
-   - **Linux/macOS:** `cp .env.example .env`
-   - **Windows:** `copy .env.example .env`
-3. Open the newly created `.env` file in your text editor and replace the placeholder values with your actual API keys:
-
-```
-VIRUSTOTAL_API_KEY=your_real_virustotal_api_key
-GEMINI_API_KEY=your_real_ai_api_key
-```
-## 📄 Usage for single mail:
-
-```
-python main.py -f path/to/email.eml
+```dotenv
+VIRUSTOTAL_API_KEY=your_virustotal_api_key
+GEMINI_API_KEY=your_gemini_api_key
 ```
 
-## 🗂️ Usage for multiple mails in a folder:
+Keep `.env` and your API keys out of the repository. VirusTotal is used for file-hash lookups. Gemini is called for higher-risk email reviews and BEC report generation.
 
+## Usage
+
+Analyze one email:
+
+```bash
+python main.py --file-name core/data/email-test/real_phishing.eml
 ```
-python main.py -fo path/to/folder/
+
+The short option works as well:
+
+```bash
+python main.py -f core/data/email-test/real_phishing.eml
 ```
 
-## 🔎 Sample output
+Analyze every `.eml` file in a folder and its subfolders:
 
-<img width="2410" height="1120" alt="image" src="https://github.com/user-attachments/assets/f255b820-a95c-4dcd-8eaf-0e7f1994d695" />
+```bash
+python main.py --folder-name core/data/email-test
+```
 
+Or use the short option:
 
+```bash
+python main.py -fo core/data/email-test
+```
+
+Run `python main.py --help` to see the available CLI options. Exactly one of `-f` or `-fo` is required.
+
+## Output files
+
+The main output files are written to `core/outputs/`:
+
+| File                | Description                                            |
+| ------------------- | ------------------------------------------------------ |
+| `report.html`       | HTML BEC report generated by Gemini                    |
+| `output_to_AI.json` | Normalized email-thread data sent to Gemini            |
+| `Raw_BEC.txt`       | Intermediate BEC data extracted from the emails        |
+| `ast_report.json`   | AST findings for Python files found in attachments     |
+| `files/`            | Files extracted from email attachments during analysis |
+
+The terminal output includes a risk classification based on the accumulated score, such as `safe`, `suspicious`, or `malicious`. Emails that need additional review may also receive a detailed Gemini assessment.
+
+## Project structure
+
+```text
+Email-Phishing-Check/
+├── main.py                         # CLI entry point and pipeline orchestration
+├── requirements.txt                # Python dependencies
+├── core/
+│   ├── ast_analyzer/               # AST analysis for Python files in attachments
+│   ├── data/
+│   │   ├── dataset/                # Reference domain list
+│   │   ├── email-test/             # Sample .eml files
+│   │   └── Skills/                 # Gemini prompts for email and BEC analysis
+│   ├── email_analyzer/
+│   │   ├── modules/                # Header, body, URL, identity, and file checks
+│   │   ├── analyzer.py             # StaticAnalyzer and risk scoring
+│   │   ├── bec_analyzer.py         # Collects email-thread data for BEC analysis
+│   │   ├── parse_text_to_json.py   # Converts Raw_BEC.txt to JSON
+│   │   └── risk_policy.py          # Risk scores and thresholds
+│   ├── outputs/                    # Reports and intermediate files
+│   ├── parsers/                    # Header, body, attachment, and threat-intel parsers
+│   └── utils/api.py                # VirusTotal and Google Gemini integrations
+└── README.md
+```
+
+## Limitations and safety notes
+
+- This is a static analysis tool. It does not replace a sandbox, email gateway, or a full incident investigation.
+- Results depend on the headers present in the `.eml` file, the reference domain data, the attachment contents, and external API responses.
+- Do not open or execute suspicious attachments on a normal workstation.
+- Files under `core/outputs/` may be overwritten or updated each time the tool runs.
