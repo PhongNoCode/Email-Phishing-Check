@@ -2,7 +2,7 @@
 
 A Python command-line tool for statically analyzing `.eml` files. It looks for phishing indicators, identity spoofing, suspicious links, dangerous attachments, and Business Email Compromise (BEC).
 
-**Please update the score thresholds in `./core/email_analyzer/risk_policy.py` (lines 2–3) to fit your use case. The safe score is currently set to 500 for testing purposes. Recommended values are 30 for Safe and 65 for Suspicious.**
+**Please update the score thresholds in `./core/email_analyzer/risk_policy.py` (lines 2–3) to fit your use case. Recommended values are 30 for Safe and 65 for Suspicious.**
 
 ## Features
 
@@ -68,7 +68,7 @@ python main.py --file-name core/data/email-test/real_phishing.eml
 The short option works as well:
 
 ```bash
-python main.py -f core/data/email-test/real_phishing.eml
+python -X utf8 main.py -f core/data/email-test/real_phishing.eml
 ```
 
 Analyze every `.eml` file in a folder and its subfolders:
@@ -122,6 +122,10 @@ Email-Phishing-Check/
 │   └── utils/api.py                # VirusTotal and Google Gemini integrations
 └── README.md
 ```
+
+## Sample ouput
+<img width="2126" height="1042" alt="image" src="https://github.com/user-attachments/assets/fe4d28d4-1507-4f1c-b93e-0c617548a7a4" />
+
 
 ## Limitations and safety notes
 
