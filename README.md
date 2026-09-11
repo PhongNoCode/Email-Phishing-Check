@@ -62,7 +62,7 @@ Keep `.env` and your API keys out of the repository. VirusTotal is used for file
 Analyze one email:
 
 ```bash
-python main.py --file-name core/data/email-test/real_phishing.eml
+python -X utf8 main.py --file-name core/data/email-test/real_phishing.eml
 ```
 
 The short option works as well:
@@ -74,13 +74,13 @@ python -X utf8 main.py -f core/data/email-test/real_phishing.eml
 Analyze every `.eml` file in a folder and its subfolders:
 
 ```bash
-python main.py --folder-name core/data/email-test
+python -X utf8 main.py --folder-name core/data/email-test
 ```
 
 Or use the short option:
 
 ```bash
-python main.py -fo core/data/email-test
+python -X utf8 main.py -fo core/data/email-test
 ```
 
 Run `python main.py --help` to see the available CLI options. Exactly one of `-f` or `-fo` is required.
